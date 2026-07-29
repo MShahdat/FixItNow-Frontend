@@ -31,24 +31,24 @@ export const loginAction = async (previousSatae: LoginState, formData: FormData)
   const result = await res.json()
 
   //& set cookies
-  // if (result.success) {
-  //   const accessToken = result?.data?.accessToken
-  //   const refreshToken = result?.data?.refreshToken
+  if (result.success) {
+    const accessToken = result?.data?.accessToken
+    const refreshToken = result?.data?.refreshToken
 
-  //   cookieStore.set("accessToken", accessToken, {
-  //     secure: process.env.NODE_ENV === "production",
-  //     maxAge: 60 * 60,
-  //     httpOnly: true,
-  //     sameSite: "lax",
-  //   })
-  //   cookieStore.set('refreshToken', refreshToken, {
-  //     secure: process.env.NODE_ENV === "production",
-  //     maxAge: 60 * 60 * 24 * 7,
-  //     httpOnly: true,
-  //     sameSite: "lax",
-  //   })
-  //   // redirect('/dashboard')
-  // }
+    cookieStore.set("accessToken", accessToken, {
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 60 * 60,
+      httpOnly: true,
+      sameSite: "lax",
+    })
+    cookieStore.set('refreshToken', refreshToken, {
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 60 * 60 * 24 * 7,
+      httpOnly: true,
+      sameSite: "lax",
+    })
+    redirect('/dashboard')
+  }
 
   console.log('result = ', result)
 
