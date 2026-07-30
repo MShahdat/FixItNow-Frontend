@@ -14,7 +14,7 @@ export default function LoginPage() {
           <p className="text-gray-500">Enter you credentials to access you account</p>
         </div>
         <LoginForm />
-        <div className='text-center'>
+        <div className='text-center -mt-4'>
           <p>New user?
             <Link href={"/register"} className='font-semibold text-decoration-line: underline'>
               Register

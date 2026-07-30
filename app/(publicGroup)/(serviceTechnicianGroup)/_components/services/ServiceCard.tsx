@@ -25,7 +25,7 @@ const ServiceCard = ({ service }: { service: Service }) => {
           {/* <Button variant={'ghost'}>Electrical</Button> */}
         </div>
         <div className='flex items-center justify-between'>
-          <div className='flex items-center gap-2'>
+          <div className='flex flex-wrap items-center gap-2'>
             <div className='flex items-center gap-1'>
               <Star className='size-4' />
               <p>{0}</p>
