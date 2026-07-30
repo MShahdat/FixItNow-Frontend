@@ -3,7 +3,7 @@
 import { LoginState } from "@/lib/interface"
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
-
+import jwt, { JwtPayload } from 'jsonwebtoken'
 
 
 export const loginAction = async (previousSatae: LoginState, formData: FormData) => {
@@ -47,10 +47,20 @@ export const loginAction = async (previousSatae: LoginState, formData: FormData)
       httpOnly: true,
       sameSite: "lax",
     })
-    redirect('/dashboard/customer')
-  }
 
-  // console.log('result = ', result)
+    const decodeUser = jwt.decode(accessToken) as JwtPayload
+    // console.log('decoded user ', decodeUser)
+    if (decodeUser.role === "CUSTOMER") {
+      redirect('/dashboard/customer')
+    }
+    else if (decodeUser.role === "TECHNICIAN") {
+      redirect('/dashboard/technician')
+    }
+    else if (decodeUser.role === 'ADMIN') {
+      redirect('/dashboard/admin')
+    }
+    // redirect('/dashboard/customer')
+  }
 
   return result
 }
