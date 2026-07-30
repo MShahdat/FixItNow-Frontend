@@ -1,5 +1,6 @@
 
 
+import { Service } from '@/lib/interface';
 import { getServices } from '../../_action/getServices';
 import ServiceCard from './ServiceCard';
 
@@ -17,8 +18,8 @@ const ServiceList = async () => {
     <div className="space-y-8">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {
-          services.data.map((item: any) => (
-            <ServiceCard key={item.id} />
+          services.data.map((item: Service) => (
+            <ServiceCard key={item.id} service={item} />
           ))
         }
       </div>
