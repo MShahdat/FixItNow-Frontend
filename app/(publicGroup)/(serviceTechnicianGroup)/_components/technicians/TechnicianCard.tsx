@@ -1,7 +1,7 @@
 import { Card } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Badge, BadgeCheck, CircleUserRound, Star, Turntable } from 'lucide-react';
+import { BadgeCheck, Star, Turntable } from 'lucide-react';
 import { Technician } from '@/lib/interface';
 import Link from 'next/link';
 

@@ -1,5 +1,7 @@
 export type ROLE = 'CUSTOMER' | 'ADMIN' | 'TECHNICIAN'
 
+export type UserStatus = "ACTIVE" | "BLOCKED"
+
 
 export type LoginState = {
   success: boolean
@@ -10,6 +12,7 @@ export type LoginState = {
     refreshToken: string
   }
 }
+
 
 
 
@@ -45,4 +48,42 @@ export interface Technician {
       rating: number
     }
   }
+}
+
+
+export type TUser = {
+  success: boolean
+  message: string
+  data: {
+    id: string
+    firstName: string
+    lastName: string
+    email: string
+    phone: string
+    profileImage?: string
+    address?: string
+    city?: string
+    role: ROLE
+    activeStatus: string
+    status: UserStatus
+    createdAt?: string
+    updatedAt?: string
+    technicianProfile?: {
+      id: string
+      userId: string
+      bio?: string
+      skills: string[]
+      experience: number
+      hourlyRate: number
+      completedJobs: number
+      availability: string[]
+      createdAt: string
+      updatedAt: string
+    }
+  }
+}
+
+
+export interface NavbarProps {
+  user: TUser
 }

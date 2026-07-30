@@ -1,12 +1,11 @@
 import { Navbar } from '@/components/shared/Navbar';
 import { getMe } from '@/services/getMe';
-import React, { ReactNode, use } from 'react';
+import React, { ReactNode } from 'react';
 
-const LayoutPage = async ({
-  children,
+const DashboardGroupLayout = async ({
+  children
 }: { children: ReactNode }) => {
   const user = await getMe()
-  console.log('user', use)
   return (
     <div>
       <Navbar user={user} />
@@ -15,4 +14,4 @@ const LayoutPage = async ({
   );
 };
 
-export default LayoutPage;
+export default DashboardGroupLayout;

@@ -47,10 +47,10 @@ export const loginAction = async (previousSatae: LoginState, formData: FormData)
       httpOnly: true,
       sameSite: "lax",
     })
-    redirect('/dashboard')
+    redirect('/dashboard/customer')
   }
 
-  console.log('result = ', result)
+  // console.log('result = ', result)
 
   return result
 }

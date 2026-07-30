@@ -3,7 +3,7 @@ import React from 'react';
 const TechnicianPage = () => {
   return (
     <div>
-      TechnicianPage
+      Technician dashboard page
     </div>
   );
 };
