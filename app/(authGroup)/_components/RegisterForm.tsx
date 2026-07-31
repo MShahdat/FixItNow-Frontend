@@ -10,10 +10,11 @@ import { cn } from "@/lib/utils";
 import { registerAction } from "../_action/registerAction";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { buildRegisterPayload, DAYS, mapZodErrors, validateAccountStep, validateFullRegistration } from "@/lib/registerValidate";
+
 
 type Role = "CUSTOMER" | "TECHNICIAN";
-
-const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+// const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 const RegisterForm = () => {
   const [role, setRole] = useState<Role>("CUSTOMER");
@@ -26,6 +27,8 @@ const RegisterForm = () => {
 
   const formRef = useRef<HTMLFormElement>(null);
   const [state, action, pending] = useActionState(registerAction, null);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
 
   const router = useRouter()
 
@@ -38,7 +41,6 @@ const RegisterForm = () => {
       setSkills([]);
       setSelectedDays([]);
       setAgreed(false)
-      router.push('/login')
     } else {
       // console.log('login failed')
       toast.error(state.message || 'register failed')
@@ -66,26 +68,51 @@ const RegisterForm = () => {
     setSkills((prev) => prev.filter((s) => s !== skill));
   };
 
+
   const handleNext = () => {
     const form = formRef.current;
     if (!form) return;
-    if (!form.checkValidity()) {
-      form.reportValidity();
+
+    const payload = buildRegisterPayload(form, role, skills, selectedDays);
+    const fieldErrors = validateAccountStep(payload);
+
+    if (fieldErrors) {
+      setErrors(fieldErrors);
+      // toast.error(Object.values(fieldErrors)[0]);
       return;
     }
+
+    const password = (form.elements.namedItem("password") as HTMLInputElement).value;
+    const rePassword = (form.elements.namedItem("re_password") as HTMLInputElement).value;
+    if (password !== rePassword) {
+      setErrors((prev) => ({ ...prev, re_password: "Passwords do not match" }));
+      // toast.error("Passwords do not match");
+      return;
+    }
+
+    setErrors({});
     setStep(2);
   };
 
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     const form = e.currentTarget;
+    const payload = buildRegisterPayload(form, role, skills, selectedDays);
+    const fieldErrors = validateFullRegistration(payload);
+
     const password = (form.elements.namedItem("password") as HTMLInputElement).value;
     const rePassword = (form.elements.namedItem("re_password") as HTMLInputElement).value;
+    const passwordsMatch = password === rePassword;
 
-    if (password !== rePassword) {
+    if (fieldErrors || !passwordsMatch) {
       e.preventDefault();
-      toast.error("Password not matches!");
+      const merged = fieldErrors ?? {};
+      if (!passwordsMatch) merged.re_password = "Passwords do not match";
+      setErrors(merged);
+      // toast.error(Object.values(merged)[0] ?? "Please fix the errors and try again");
+      return;
     }
+
+    setErrors({});
   };
 
 
@@ -132,7 +159,6 @@ const RegisterForm = () => {
           value={JSON.stringify(selectedDays.map((i) => DAYS[i]))}
         />
 
-        {/* STEP 1 — Account (hidden via CSS on step 2, NOT unmounted) */}
         <div className={step === 1 ? "" : "hidden"}>
           <div className="grid grid-cols-2 gap-1 bg-gray-100 rounded-xl p-1 mb-6">
             <button
@@ -164,44 +190,73 @@ const RegisterForm = () => {
           <div className="flex flex-col gap-3 space-y-1">
             <div className="grid grid-cols-2 gap-2">
               <div>
-                <label className="text-sm font-semibold text-[#0f1420] mb-2 block">
-                  First Name
-                </label>
-                <Input name="firstName" type="text" placeholder="First name" required />
+                <label className="text-sm font-semibold text-[#0f1420] mb-2 block">First Name</label>
+                <Input
+                  name="firstName"
+                  type="text"
+                  placeholder="First name"
+                  required
+                  onChange={() => setErrors((prev) => ({ ...prev, firstName: "" }))}
+                />
+                {errors.firstName && <p className="text-red-500 text-xs mt-1">{errors.firstName}</p>}
               </div>
               <div>
-                <label className="text-sm font-semibold text-[#0f1420] mb-2 block">
-                  Last Name
-                </label>
-                <Input name="lastName" type="text" placeholder="Last name" />
+                <label className="text-sm font-semibold text-[#0f1420] mb-2 block">Last Name</label>
+                <Input
+                  name="lastName"
+                  type="text"
+                  placeholder="Last name"
+                  onChange={() => setErrors((prev) => ({ ...prev, lastName: "" }))}
+                />
+                {errors.lastName && <p className="text-red-500 text-xs mt-1">{errors.lastName}</p>}
               </div>
             </div>
             <div>
-              <label className="text-sm font-semibold text-[#0f1420] mb-2 block">
-                Email
-              </label>
-              <Input name="email" type="email" placeholder="Email address" required />
+              <label className="text-sm font-semibold text-[#0f1420] mb-2 block">Email</label>
+              <Input
+                name="email"
+                type="email"
+                placeholder="Email address"
+                required
+                onChange={() => setErrors((prev) => ({ ...prev, email: "" }))}
+              />
+              {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
             </div>
 
             <div>
-              <label className="text-sm font-semibold text-[#0f1420] mb-2 block">
-                Phone
-              </label>
-              <Input name="phone" type="text" placeholder="Phone number" required />
+              <label className="text-sm font-semibold text-[#0f1420] mb-2 block">Phone</label>
+              <Input
+                name="phone"
+                type="text"
+                placeholder="Phone number"
+                required
+                onChange={() => setErrors((prev) => ({ ...prev, phone: "" }))}
+              />
+              {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
             </div>
 
             <div className="grid grid-cols-2 gap-3 mb-4">
               <div>
-                <label className="text-sm font-semibold text-[#0f1420] mb-2 block">
-                  Password
-                </label>
-                <Input name="password" type="password" placeholder="password" required />
+                <label className="text-sm font-semibold text-[#0f1420] mb-2 block">Password</label>
+                <Input
+                  name="password"
+                  type="password"
+                  placeholder="password"
+                  required
+                  onChange={() => setErrors((prev) => ({ ...prev, password: "" }))}
+                />
+                {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
               </div>
               <div>
-                <label className="text-sm font-semibold text-[#0f1420] mb-2 block">
-                  Re-type Password
-                </label>
-                <Input name="re_password" type="password" placeholder="Confirm password" required />
+                <label className="text-sm font-semibold text-[#0f1420] mb-2 block">Re-type Password</label>
+                <Input
+                  name="re_password"
+                  type="password"
+                  placeholder="Confirm password"
+                  required
+                  onChange={() => setErrors((prev) => ({ ...prev, re_password: "" }))}
+                />
+                {errors.re_password && <p className="text-red-500 text-xs mt-1">{errors.re_password}</p>}
               </div>
             </div>
 
@@ -232,12 +287,20 @@ const RegisterForm = () => {
             }}
             className="w-full"
           >
-            {role === "TECHNICIAN" ? "Continue to profile setup" : "Create account"}
-            <ArrowRight className="w-4 h-4" />
+            {
+              role === "TECHNICIAN"
+                ?
+                "Continue to profile setup"
+                :
+                pending ? "Creating..." : "Create account"
+            }
+            {pending ?
+              '' : <ArrowRight className="w-4 h-4" />
+            }
           </Button>
         </div>
 
-        {/* STEP 2 — Profile (technician only), hidden via CSS on step 1 */}
+
         <div className={step === 2 && role === "TECHNICIAN" ? "" : "hidden"}>
           <label className="text-sm font-semibold text-[#0f1420] mb-2 block">
             Short bio (Optional)
@@ -250,20 +313,32 @@ const RegisterForm = () => {
 
           <div className="grid grid-cols-2 gap-3 mb-4">
             <div>
-              <label className="text-sm font-semibold text-[#0f1420] mb-2 block">
-                Years of experience
-              </label>
-              <Input name="experience" type="number" placeholder="5" required={step === 2} />
+              <label className="text-sm font-semibold text-[#0f1420] mb-2 block">Years of experience</label>
+              <Input
+                name="experience"
+                type="number"
+                placeholder="5"
+                onChange={() => setErrors((prev) => ({ ...prev, experience: "" }))}
+              />
+              {errors.experience && <p className="text-red-500 text-xs mt-1">{errors.experience}</p>}
             </div>
             <div>
               <label className="text-sm font-semibold text-[#0f1420] mb-2 block">
                 Hourly rate
               </label>
-              <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">
-                  $
-                </span>
-                <Input name="hourlyRate" type="number" placeholder="50" className="pl-6" required={step === 2} />
+              <div>
+                <label className="text-sm font-semibold text-[#0f1420] mb-2 block">Hourly rate</label>
+                <div className="relative">
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">$</span>
+                  <Input
+                    name="hourlyRate"
+                    type="number"
+                    placeholder="50"
+                    className="pl-6"
+                    onChange={() => setErrors((prev) => ({ ...prev, hourlyRate: "" }))}
+                  />
+                </div>
+                {errors.hourlyRate && <p className="text-red-500 text-xs mt-1">{errors.hourlyRate}</p>}
               </div>
             </div>
           </div>

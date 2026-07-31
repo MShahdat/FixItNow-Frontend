@@ -1,5 +1,7 @@
 'use server'
 
+import { redirect } from "next/navigation";
+
 
 export const registerAction = async (previousState: any, formData: FormData) => {
   // console.log('from data ', formData)
@@ -37,6 +39,10 @@ export const registerAction = async (previousState: any, formData: FormData) => 
 
   const result = await res.json()
   // console.log('regiser info', result)
+
+  if (result.success) {
+    redirect('/login')
+  }
 
   return result
 }
