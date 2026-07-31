@@ -108,104 +108,104 @@ export function Navbar({ user }: NavbarProps) {
           })}
         </nav>
 
-        {/* Right side: mobile menu + user dropdown */}
-        {user.success ? (
-          <div className="flex items-center gap-2">
-            {/* Mobile nav */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="md:hidden"
-                  aria-label="Open menu"
-                >
-                  <Menu />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48">
-                <DropdownMenuGroup>
-                  {navLinks.map((link) => {
-                    const Icon = link.icon
-                    return (
-                      <DropdownMenuItem key={link.href} asChild>
-                        <Link href={link.href}>
-                          <Icon />
-                          {link.label}
-                        </Link>
-                      </DropdownMenuItem>
-                    )
-                  })}
-                </DropdownMenuGroup>
-              </DropdownMenuContent>
-            </DropdownMenu>
-
-            {/* User dropdown */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="rounded-full"
-                  aria-label="User menu"
-                >
-                  <Avatar className="size-8">
-                    <AvatarImage
-                      src={user?.data?.profileImage}
-                      alt="profileImge"
-                    />
-                    <AvatarFallback>👦🏻</AvatarFallback>
-                  </Avatar>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent
-                align="end"
-                className="w-56 bg-white text-neutral-900"
+        <div className="flex items-center gap-2">
+          {/* Mobile nav */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="md:hidden"
+                aria-label="Open menu"
               >
-                <div className="flex flex-col px-1.5 py-1.5">
-                  <span className="text-sm font-medium text-neutral-900">
-                    {name}
-                  </span>
-                  <span className="text-xs text-neutral-500">
-                    {user?.data?.email}
-                  </span>
-                </div>
-                <DropdownMenuSeparator className="bg-neutral-200" />
-                <DropdownMenuGroup>
-                  {userMenuItems.map((item) => {
-                    const Icon = item.icon
-                    return (
-                      <DropdownMenuItem
-                        key={item.href}
-                        asChild
-                        className="text-neutral-900 focus:bg-neutral-300 focus:text-neutral-900 [&_svg]:!text-neutral-900 [&_svg_*]:!text-neutral-900"
-                      >
-                        <Link href={item.href}>
-                          <Icon />
-                          {item.label}
-                        </Link>
-                      </DropdownMenuItem>
-                    )
-                  })}
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator className="bg-neutral-200" />
-                <DropdownMenuItem
-                  onClick={() => {
-                    handleLogout('logout')
-                  }}
-                  className="!text-red-600 focus:bg-red-50 focus:!text-red-600 [&_svg]:!text-red-600 [&_svg_*]:!text-red-600"
+                <Menu className="size-5" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              <DropdownMenuGroup>
+                {navLinks.map((link) => {
+                  const Icon = link.icon
+                  return (
+                    <DropdownMenuItem key={link.href} asChild>
+                      <Link href={link.href}>
+                        <Icon />
+                        {link.label}
+                      </Link>
+                    </DropdownMenuItem>
+                  )
+                })}
+              </DropdownMenuGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          {user.success ? (
+            <div className="flex items-center gap-2">
+              {/* User dropdown */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="rounded-full"
+                    aria-label="User menu"
+                  >
+                    <Avatar className="size-8">
+                      <AvatarImage
+                        src={user?.data?.profileImage}
+                        alt="profileImge"
+                      />
+                      <AvatarFallback>👦🏻</AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  align="end"
+                  className="w-56 bg-white text-neutral-900"
                 >
-                  <LogOut />
-                  Sign out
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-        ) : (
-          <Link href="/login">
-            <Button>Login</Button>
-          </Link>
-        )}
+                  <div className="flex flex-col px-1.5 py-1.5">
+                    <span className="text-sm font-medium text-neutral-900">
+                      {name}
+                    </span>
+                    <span className="text-xs text-neutral-500">
+                      {user?.data?.email}
+                    </span>
+                  </div>
+                  <DropdownMenuSeparator className="bg-neutral-200" />
+                  <DropdownMenuGroup>
+                    {userMenuItems.map((item) => {
+                      const Icon = item.icon
+                      return (
+                        <DropdownMenuItem
+                          key={item.href}
+                          asChild
+                          className="text-neutral-900 focus:bg-neutral-300 focus:text-neutral-900 [&_svg]:!text-neutral-900 [&_svg_*]:!text-neutral-900"
+                        >
+                          <Link href={item.href}>
+                            <Icon />
+                            {item.label}
+                          </Link>
+                        </DropdownMenuItem>
+                      )
+                    })}
+                  </DropdownMenuGroup>
+                  <DropdownMenuSeparator className="bg-neutral-200" />
+                  <DropdownMenuItem
+                    onClick={() => {
+                      handleLogout('logout')
+                    }}
+                    className="!text-red-600 focus:bg-red-50 focus:!text-red-600 [&_svg]:!text-red-600 [&_svg_*]:!text-red-600"
+                  >
+                    <LogOut />
+                    Sign out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          ) : (
+            <Link href="/login">
+              <Button>Login</Button>
+            </Link>
+          )}
+        </div>
       </div>
     </header>
   )

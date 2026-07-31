@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 const ServiceCard = ({ service }: { service: Service }) => {
 
-  console.log('service', service)
+  // console.log('service', service)
 
   const firstName = service?.technician?.user?.firstName;
   const lastName = service?.technician?.user?.lastName;
