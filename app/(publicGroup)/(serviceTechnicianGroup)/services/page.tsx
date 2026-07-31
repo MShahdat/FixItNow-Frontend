@@ -16,10 +16,10 @@ const ServicePage = async ({
 
 
   return (
-    <div className='max-w-7xl mx-auto px-4 py-4'>
+    <div className='max-w-7xl mx-auto px-2 py-4'>
       <div className='flxe flex-col space-y-6'>
-        <div className='flex items-center justify-between'>
-          <p className='text-2xl font-semibold'>All Services {20}</p>
+        <div className='flex flex-col sm:flex-row justify-between space-y-2'>
+          <p className='text-xl md:text-2xl whitespace-nowrap font-semibold'>All Services ({service?.meta?.total})</p>
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
               <p className="whitespace-nowrap">Per Page: </p>
