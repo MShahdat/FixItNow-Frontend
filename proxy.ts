@@ -1,24 +1,47 @@
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
+import { NextRequest } from 'next/server'
 import jwt, { JwtPayload } from 'jsonwebtoken'
 import { createAccessToken } from './services/createAccessToken'
+import { jwtToken } from './util/jwt'
 
 const AUTH_ROUTES = ['/login', '/register']
 const PUBLIC_ROUTES = ['/', '/services', '/technicians', '/about', '/contact']
 
 
 export async function proxy(request: NextRequest) {
-  console.log('request', request)
+  // console.log('request', request)
   const pathname = request.nextUrl.pathname
 
   const cookieStore = await cookies()
+
   let accessToken = cookieStore.get('accessToken')?.value
+  const refreshToken = request.cookies.get('refreshToken')?.value
 
-  const decodeUser = accessToken ? jwt.decode(accessToken) as JwtPayload : null
 
+  let decodeUser = accessToken ? jwtToken.jwtVerify(accessToken, process.env.JWT_ACCESS_SECRET as string) : null
+  const decodeRefreshToken = refreshToken ? jwtToken.jwtVerify(refreshToken, process.env.JWT_REFRESH_SECRET as string) : null
+
+
+  if (!accessToken && decodeRefreshToken) {
+    const result = await createAccessToken()
+
+    if (result.success) {
+      const newAccessToken = result.data.accessToken as string;
+      cookieStore.set("accessToken", newAccessToken, {
+        secure: process.env.NODE_ENV === "production",
+        maxAge: 60 * 60,
+        httpOnly: true,
+        sameSite: "lax",
+      });
+
+      accessToken = newAccessToken
+      decodeUser = accessToken ? jwtToken.jwtVerify(accessToken, process.env.JWT_ACCESS_SECRET as string) : null
+    }
+  }
 
   let role = null
+
   if (decodeUser) {
     role = decodeUser.role
   }
@@ -42,6 +65,7 @@ export async function proxy(request: NextRequest) {
 
   const isPublic = PUBLIC_ROUTES.some((route) => pathname === route || pathname.startsWith(route + '/'))
   const isAuth = AUTH_ROUTES.some((route) => pathname === route || pathname.startsWith(route + '/'))
+
 
   //& authenticated page protection 
   if (!accessToken && !isPublic && !isAuth) {

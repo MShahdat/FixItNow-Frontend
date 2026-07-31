@@ -26,18 +26,5 @@ export const createAccessToken = async () => {
   const result = await res.json()
   // console.log('result ', result)
 
-
-  //& set cookies
-  // if (result.success) {
-  //   const accessToken = result?.data?.accessToken
-
-  //   cookieStore.set("accessToken", accessToken, {
-  //     secure: process.env.NODE_ENV === "production",
-  //     maxAge: 60 * 60,
-  //     httpOnly: true,
-  //     sameSite: "lax",
-  //   })
-  // }
-
-  return result?.data?.accessToken
+  return result
 }
