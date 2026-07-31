@@ -3,12 +3,20 @@ import TechnicianCard from "./TechnicianCard";
 import { getTechnicians } from "../../_action/getTechnicians";
 
 
-const TechnicianList = async () => {
-  const technician = await getTechnicians()
+type Props = {
+  searchParams: {
+    [key: string]: string | string[] | undefined;
+  };
+};
+
+
+const TechnicianList = async ({ searchParams }: Props) => {
+
+  const technician = await getTechnicians(searchParams)
 
   if (!technician.success || !technician.data?.length) {
     return (
-      <p className="py-12 text-center text-red-700">No services found</p>
+      <p className="py-12 text-center text-red-700">No technician found</p>
     )
   }
 

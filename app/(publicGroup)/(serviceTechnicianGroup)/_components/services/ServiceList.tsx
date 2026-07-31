@@ -4,9 +4,17 @@ import { Service } from '@/lib/interface';
 import { getServices } from '../../_action/getServices';
 import ServiceCard from './ServiceCard';
 
-const ServiceList = async () => {
 
-  const services = await getServices()
+type Props = {
+  searchParams: {
+    [key: string]: string | string[] | undefined;
+  };
+};
+
+
+const ServiceList = async ({ searchParams }: Props) => {
+
+  const services = await getServices(searchParams)
 
   if (!services.success || !services.data?.length) {
     return (

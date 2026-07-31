@@ -85,3 +85,16 @@ export type TUser = {
 export interface NavbarProps {
   user: TUser
 }
+
+
+
+export type Meta = {
+  total: number
+  page: number
+  limit: number
+  totalPage: number
+}
+
+export type PaginationsProps = {
+  meta: Meta
+}

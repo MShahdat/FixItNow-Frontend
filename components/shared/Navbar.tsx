@@ -89,7 +89,7 @@ export function Navbar({ user }: NavbarProps) {
             <span className="flex size-8 items-center justify-center rounded-md bg-primary text-primary-foreground">
               <Command className="size-5" />
             </span>
-            <span className="text-lg font-semibold tracking-tight">Press</span>
+            <span className="text-lg font-semibold tracking-tight">FixItNow</span>
           </Link>
         </div>
 
