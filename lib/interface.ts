@@ -16,6 +16,7 @@ export type LoginState = {
 
 export interface Service {
   id: string
+  cover: string
   title: string
   description: string
   price: number
@@ -97,4 +98,56 @@ export type Meta = {
 
 export type PaginationsProps = {
   meta: Meta
+}
+
+
+
+export interface MY_SERVICE {
+  id: string
+  technicianProfileId: string
+  categoryId: string
+  cover: string
+  title: string
+  description: string
+  price: string
+  type: string
+  duration: string
+  location: string[]
+  availableAt: string[]
+  isActive: boolean
+}
+
+
+
+export interface Categories {
+  id: string
+  name: string
+}
+
+
+
+export interface IServiceCreate {
+  categoryId: string
+  // cover: string,
+  title: string
+  description: string
+  price: number
+  type: string
+  location: string[]
+  duration: string
+  availableAt: string[]
+}
+
+
+
+
+export interface IServiceUpdate {
+  title?: string
+  cover?: string
+  description?: string
+  type?: string,
+  price?: number
+  location?: string[]
+  duration?: string
+  availableAt?: string[]
 }

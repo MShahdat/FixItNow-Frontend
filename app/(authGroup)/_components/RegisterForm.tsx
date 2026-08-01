@@ -322,25 +322,22 @@ const RegisterForm = () => {
               />
               {errors.experience && <p className="text-red-500 text-xs mt-1">{errors.experience}</p>}
             </div>
+
             <div>
-              <label className="text-sm font-semibold text-[#0f1420] mb-2 block">
-                Hourly rate
-              </label>
-              <div>
-                <label className="text-sm font-semibold text-[#0f1420] mb-2 block">Hourly rate</label>
-                <div className="relative">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">$</span>
-                  <Input
-                    name="hourlyRate"
-                    type="number"
-                    placeholder="50"
-                    className="pl-6"
-                    onChange={() => setErrors((prev) => ({ ...prev, hourlyRate: "" }))}
-                  />
-                </div>
-                {errors.hourlyRate && <p className="text-red-500 text-xs mt-1">{errors.hourlyRate}</p>}
+              <label className="text-sm font-semibold text-[#0f1420] mb-2 block">Hourly rate</label>
+              <div className="relative">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">$</span>
+                <Input
+                  name="hourlyRate"
+                  type="number"
+                  placeholder="50"
+                  className="pl-6"
+                  onChange={() => setErrors((prev) => ({ ...prev, hourlyRate: "" }))}
+                />
               </div>
+              {errors.hourlyRate && <p className="text-red-500 text-xs mt-1">{errors.hourlyRate}</p>}
             </div>
+
           </div>
 
           <label className="text-sm font-semibold text-[#0f1420] mb-2 block">
