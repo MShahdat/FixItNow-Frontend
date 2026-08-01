@@ -1,16 +1,18 @@
-import { Service, Technician } from "@/lib/interface";
+import { Meta, Service, Technician } from "@/lib/interface";
 import TechnicianCard from "./TechnicianCard";
 import { getTechnicians } from "../../_action/getTechnicians";
+import { Paginations } from "@/components/shared/Pagination";
 
 
 type Props = {
   searchParams: {
     [key: string]: string | string[] | undefined;
-  };
+  },
+  meta: Meta
 };
 
 
-const TechnicianList = async ({ searchParams }: Props) => {
+const TechnicianList = async ({ searchParams, meta }: Props) => {
 
   const technician = await getTechnicians(searchParams)
 
@@ -29,6 +31,7 @@ const TechnicianList = async ({ searchParams }: Props) => {
           ))
         }
       </div>
+      <Paginations meta={meta} />
     </div>
   );
 };

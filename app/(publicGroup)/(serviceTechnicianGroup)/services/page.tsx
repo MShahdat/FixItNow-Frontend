@@ -28,8 +28,7 @@ const ServicePage = async ({
             <SearchBar />
           </div>
         </div>
-        <ServiceList searchParams={search} />
-        <Paginations meta={service.meta} />
+        <ServiceList searchParams={search} meta={service.meta} />
       </div>
     </div>
   );

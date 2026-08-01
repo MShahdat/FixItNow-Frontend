@@ -151,3 +151,22 @@ export interface IServiceUpdate {
   duration?: string
   availableAt?: string[]
 }
+
+
+
+
+export interface BookingTech {
+  id: string
+  customer: {
+    firstName: string
+    lastName: string
+  }
+  totalAmount: string
+  service: {
+    title: string
+    duration: string
+    type: string
+  }
+  scheduledDate: string
+  status: "ACCEPTED" | "REQUESTED" | "REJECTED" | "COMPLETED" | "CANCELLED" | string
+}

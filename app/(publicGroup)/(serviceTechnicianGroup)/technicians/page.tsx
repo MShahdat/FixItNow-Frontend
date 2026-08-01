@@ -26,9 +26,7 @@ const TechnicianPage = async ({
             <SearchBar />
           </div>
         </div>
-        <TechnicianList searchParams={search} />
-        <p className='text-center'>pagination</p>
-        <Paginations meta={technicians.meta}></Paginations>
+        <TechnicianList searchParams={search} meta={technicians.meta} />
       </div>
     </div>
   );

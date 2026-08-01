@@ -20,7 +20,7 @@ export const customerItems = [
   },
   {
     label: "Reviews",
-    href: "/dashboard/customer/review",
+    href: "/dashboard/customer/reviews",
     icon: Fullscreen,
   },
   {

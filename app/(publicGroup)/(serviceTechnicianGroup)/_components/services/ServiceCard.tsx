@@ -12,11 +12,13 @@ const ServiceCard = ({ service }: { service: Service }) => {
   const lastName = service?.technician?.user?.lastName;
   const fullName = firstName + " " + lastName
 
+  const imge = 'https://images.unsplash.com/photo-1605152276897-4f618f831968?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c2VydmljZXxlbnwwfHwwfHx8MA%3D%3D'
+
   return (
     <Card>
-      <img className='w-full h-44 object-cover' src={service.cover} alt='image' />
+      <img className='w-full h-44 object-cover' src={service?.cover || imge} alt='image' />
       <div className='flex flex-col gap-1 px-2 -mt-2'>
-        <p className='text-lg font-semibold text-neutral-900'>{service.title}</p>
+        <p className='text-lg font-semibold text-neutral-900'>{service?.title}</p>
         <div className='flex items-center justify-between '>
           <div className='flex items-center gap-1'>
             {/* <Wrench className='size-4' /> */}

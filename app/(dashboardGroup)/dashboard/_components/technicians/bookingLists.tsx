@@ -18,7 +18,7 @@ const BookingLists = async ({ searchParams }: Props) => {
 
   return (
     <div className="">
-      <BookingTable bookings={bookings.data} />
+      <BookingTable bookings={bookings?.data} />
     </div>
   );
 };

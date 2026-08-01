@@ -1,18 +1,20 @@
 
 
-import { Service } from '@/lib/interface';
+import { Meta, Service } from '@/lib/interface';
 import { getServices } from '../../_action/getServices';
 import ServiceCard from './ServiceCard';
+import { Paginations } from '@/components/shared/Pagination';
 
 
 type Props = {
   searchParams: {
     [key: string]: string | string[] | undefined;
-  };
+  },
+  meta: Meta
 };
 
 
-const ServiceList = async ({ searchParams }: Props) => {
+const ServiceList = async ({ searchParams, meta }: Props) => {
 
   const services = await getServices(searchParams)
 
@@ -31,6 +33,7 @@ const ServiceList = async ({ searchParams }: Props) => {
           ))
         }
       </div>
+      <Paginations meta={meta} />
     </div>
   );
 };

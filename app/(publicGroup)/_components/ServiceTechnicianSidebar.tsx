@@ -13,8 +13,7 @@ import {
   SidebarMenuItem,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
-import Link from "next/link";
-import { Podcast, UserRound } from "lucide-react";
+
 import { usePathname } from "next/navigation";
 
 

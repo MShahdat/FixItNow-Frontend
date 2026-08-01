@@ -1,9 +1,12 @@
 'use server'
 
+import { revalidateTag } from "next/cache"
 import { cookies } from "next/headers"
 
 
-export const bookingStatusUpdate = async (bookingId: string, formData: FormData) => {
+export const bookingStatusUpdate = async (bookingId: string, previousState: any, formData: FormData) => {
+
+  console.log('form data ==== ', formData)
 
   const cookieStore = await cookies()
   const accessToken = cookieStore.get('accessToken')?.value
@@ -22,6 +25,10 @@ export const bookingStatusUpdate = async (bookingId: string, formData: FormData)
   })
 
   const result = await res.json()
+
+  if (result.success) {
+    revalidateTag('technician-bookings', { expire: 0 })
+  }
 
   return result
 }

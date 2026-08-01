@@ -1,13 +1,4 @@
-import { MoreHorizontalIcon } from "lucide-react"
 
-import { Button } from "@/components/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 import {
   Table,
   TableBody,
@@ -17,38 +8,28 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
+import { BookingTech } from "@/lib/interface"
+import { StatusUpdateForm } from "./statusUpdateForm"
 
-interface Booking {
-  id: string
-  customer: {
-    firstName: string
-    lastName: string
-  }
-  totalAmount: string
-  service: {
-    title: string
-    duration: string
-    type: string
-  }
-  scheduledDate: string
-  status: "ACCEPTED" | "REQUESTED" | "REJECTED" | "COMPLETED" | "CANCELLED" | string
-}
 
 interface BookingTableProps {
-  bookings: Booking[]
+  bookings: BookingTech[]
 }
 
 function getStatusVariant(status: string) {
   switch (status) {
     case "ACCEPTED":
-      return "default"
+      return "accepted"
     case "REQUESTED":
-      return "secondary"
-    case "REJECTED":
+      return "requested"
+    case 'DECLINED':
+      return "declined"
     case "CANCELLED":
-      return "destructive"
+      return "cancelled"
     case "COMPLETED":
-      return "outline"
+      return "completed"
+    case "IN_PROGRESS":
+      return "inProgress"
     default:
       return "secondary"
   }
@@ -62,14 +43,15 @@ export function BookingTable({ bookings }: BookingTableProps) {
   return (
     <Table>
       <TableHeader>
-        <TableRow>
+        <TableRow className="text-center">
           <TableHead>Customer</TableHead>
           <TableHead>Service Title</TableHead>
+          <TableHead>Price</TableHead>
           <TableHead>Duration</TableHead>
           <TableHead>Type</TableHead>
           <TableHead>Date</TableHead>
           <TableHead>Status</TableHead>
-          <TableHead className="text-right">Actions</TableHead>
+          <TableHead className="">Actions</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -80,12 +62,13 @@ export function BookingTable({ bookings }: BookingTableProps) {
             </TableCell>
           </TableRow>
         ) : (
-          bookings?.map((booking) => (
-            <TableRow key={booking.id}>
+          bookings?.map((booking: BookingTech) => (
+            <TableRow key={booking.id} className="">
               <TableCell className="font-medium">
                 {booking.customer.firstName} {booking.customer.lastName}
               </TableCell>
               <TableCell>{booking.service?.title}</TableCell>
+              <TableCell>{booking.totalAmount}</TableCell>
               <TableCell>{booking.service?.duration}</TableCell>
               <TableCell className="capitalize">{booking.service?.type}</TableCell>
               <TableCell>
@@ -100,23 +83,8 @@ export function BookingTable({ bookings }: BookingTableProps) {
                   {formatStatus(booking.status)}
                 </Badge>
               </TableCell>
-              <TableCell className="text-right">
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon" className="size-8">
-                      <MoreHorizontalIcon />
-                      <span className="sr-only">Open menu</span>
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem>Edit</DropdownMenuItem>
-                    <DropdownMenuItem>Duplicate</DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem variant="destructive">
-                      Delete
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+              <TableCell className="">
+                <StatusUpdateForm booking={booking} />
               </TableCell>
             </TableRow>
           ))

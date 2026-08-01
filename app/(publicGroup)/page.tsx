@@ -1,5 +1,6 @@
 import { createAccessToken } from "@/services/createAccessToken";
 import { getMe } from "@/services/getMe";
+import HeroSection from "./_components/Hero";
 
 
 const HomePage = async () => {
@@ -11,7 +12,7 @@ const HomePage = async () => {
 
   return (
     <div>
-      hello fixitnow
+      <HeroSection />
     </div>
   );
 };

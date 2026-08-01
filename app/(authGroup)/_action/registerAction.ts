@@ -32,7 +32,8 @@ export const registerAction = async (previousState: any, formData: FormData) => 
   const res = await fetch(`${process.env.BACKEND_API_URL}/api/auth/register`, {
     method: "POST",
     headers: {
-      "content-type": "application/json"
+
+      "content-type": "application/json",
     },
     body: JSON.stringify(payload)
   })
