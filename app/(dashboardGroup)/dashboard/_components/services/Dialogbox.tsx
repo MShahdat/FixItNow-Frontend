@@ -47,15 +47,16 @@ export function DialogService({ mode, service, categories }: Props) {
     editService.bind(null, service.id) : createService
   const [state, formAction, pending] = useActionState(action, null)
 
+  console.log('state', state)
+
   useEffect(() => {
     if (!state) return
-    if (state.success) {
+    if (state.success && state.data) {
       toast.success(state.message)
+      setOpen(false)
     } else {
-      // console.log('login failed')
       toast.error(state.message || 'register failed')
     }
-    setOpen(!open)
   }, [state])
 
 
@@ -128,25 +129,7 @@ export function DialogService({ mode, service, categories }: Props) {
           </DialogDescription>
         </DialogHeader>
         <form action={formAction}>
-          <FieldGroup className="gap-4 py-4">
-            <Field>
-              <Label htmlFor="cover">Cover image</Label>
-              <label
-                htmlFor="cover"
-                className="flex h-36 cursor-pointer items-center justify-center rounded-md border border-dashed text-muted-foreground hover:bg-accent/50 overflow-hidden"
-              >
-                {coverPreview ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={coverPreview} alt="Cover preview" className="h-full w-full object-cover" />
-                ) : (
-                  <div className="flex flex-col items-center gap-1 text-sm">
-                    <ImagePlus className="size-5" />
-                    Click to upload cover image
-                  </div>
-                )}
-              </label>
-              <Input name="cover" id="cover" type="file" accept="image/*" className="hidden" onChange={handleCoverChange} />
-            </Field>
+          <FieldGroup className="gap-4 pb-4">
             <Field>
               <Label htmlFor="title">Title</Label>
               <Input
@@ -172,7 +155,7 @@ export function DialogService({ mode, service, categories }: Props) {
             <div className="grid grid-cols-2 gap-4">
               <Field>
                 <Label>Category</Label>
-                <Select name="categoryId" value={categoryId} onValueChange={setCategoryId}>
+                <Select name="categoryId" value={categoryId} onValueChange={setCategoryId} required>
                   <SelectTrigger>
                     <SelectValue placeholder="Select category" />
                   </SelectTrigger>
@@ -271,7 +254,7 @@ export function DialogService({ mode, service, categories }: Props) {
             <div className="grid grid-cols-2 gap-4">
               <Field>
                 <Label>Duration</Label>
-                <Select name="duration" value={duration} onValueChange={setDuration}>
+                <Select name="duration" value={duration} onValueChange={setDuration} required>
                   <SelectTrigger>
                     <SelectValue placeholder="Select duration" />
                   </SelectTrigger>
@@ -286,7 +269,7 @@ export function DialogService({ mode, service, categories }: Props) {
               </Field>
               <Field>
                 <Label>Type</Label>
-                <Select name="type" value={type} onValueChange={setType}>
+                <Select name="type" value={type} onValueChange={setType} required>
                   <SelectTrigger>
                     <SelectValue placeholder="Select type" />
                   </SelectTrigger>
@@ -301,7 +284,24 @@ export function DialogService({ mode, service, categories }: Props) {
               </Field>
             </div>
 
-
+            <Field>
+              <Label htmlFor="cover">Cover image</Label>
+              <label
+                htmlFor="cover"
+                className="flex h-24 cursor-pointer items-center justify-center rounded-md border border-dashed text-muted-foreground hover:bg-accent/50 overflow-hidden"
+              >
+                {coverPreview ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={coverPreview} alt="Cover preview" className="h-full w-full object-cover" />
+                ) : (
+                  <div className="flex flex-col items-center gap-1 text-sm">
+                    <ImagePlus className="size-5" />
+                    Click to upload cover image
+                  </div>
+                )}
+              </label>
+              <Input name="cover" id="cover" type="file" accept="image/*" className="hidden" onChange={handleCoverChange} />
+            </Field>
           </FieldGroup>
 
           <DialogFooter>

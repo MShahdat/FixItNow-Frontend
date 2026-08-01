@@ -1,11 +1,38 @@
-import React from 'react';
+import SearchBar from "@/components/shared/SearchBar";
+import { CardShow } from "@/components/shared/CardShow";
+import BookingLists from "../../_components/technicians/bookingLists";
 
-const BookingsPage = () => {
+
+const BookingPage = async ({
+  searchParams,
+}: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) => {
+
+  const search = await searchParams
+  // console.log('search ', search)
+
+  // const service = await getServices(search)
+
+
   return (
-    <div>
-      overview page
+    <div className='max-w-7xl mx-auto px-2 py-4'>
+      <div className='flxe flex-col space-y-6'>
+        <div className='flex flex-col sm:flex-row justify-between space-y-2'>
+          <p className='text-xl md:text-2xl whitespace-nowrap font-semibold'>Manage Bookings</p>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <p className="whitespace-nowrap">Per Page: </p>
+              <CardShow />
+            </div>
+            <SearchBar />
+          </div>
+        </div>
+
+        <BookingLists searchParams={search} />
+
+        {/* <Paginations meta={service.meta} /> */}
+      </div>
     </div>
   );
 };
 
-export default BookingsPage;
+export default BookingPage;
