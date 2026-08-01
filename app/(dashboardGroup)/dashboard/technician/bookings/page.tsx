@@ -1,6 +1,10 @@
+
+
 import SearchBar from "@/components/shared/SearchBar";
 import { CardShow } from "@/components/shared/CardShow";
 import BookingLists from "../../_components/technicians/bookingLists";
+import { Paginations } from "@/components/shared/Pagination";
+import { getBookingByTechnician } from "../../_action/getBookingByTechnician";
 
 
 const BookingPage = async ({
@@ -10,7 +14,7 @@ const BookingPage = async ({
   const search = await searchParams
   // console.log('search ', search)
 
-  // const service = await getServices(search)
+  const bookings = await getBookingByTechnician(search)
 
 
   return (
@@ -29,7 +33,7 @@ const BookingPage = async ({
 
         <BookingLists searchParams={search} />
 
-        {/* <Paginations meta={service.meta} /> */}
+        <Paginations meta={bookings.meta} />
       </div>
     </div>
   );

@@ -22,7 +22,7 @@ export function Paginations({ meta }: PaginationsProps) {
   const searchParams = useSearchParams()
 
   const currentPage = Number(searchParams.get("page") ?? 1)
-  const totalPage = Math.max(meta.totalPage, 1)
+  const totalPage = Math.max(meta?.totalPage, 1)
 
   const goToPage = useCallback(
     (page: number) => {
