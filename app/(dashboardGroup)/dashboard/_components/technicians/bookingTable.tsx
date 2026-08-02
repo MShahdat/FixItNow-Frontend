@@ -51,7 +51,7 @@ export function BookingTable({ bookings }: BookingTableProps) {
           <TableHead>Type</TableHead>
           <TableHead>Date</TableHead>
           <TableHead>Status</TableHead>
-          <TableHead className="">Actions</TableHead>
+          <TableHead >Actions</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>

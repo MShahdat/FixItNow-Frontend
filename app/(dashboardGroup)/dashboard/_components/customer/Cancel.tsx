@@ -19,12 +19,14 @@ export function CancelDialog({ bookingId }: { bookingId: string }) {
   const action = cancelBooking.bind(null, bookingId)
   const [state, formAction, pending] = useActionState(action, null)
 
+  console.log('state ', state)
+
   useEffect(() => {
     if (!state) return
-    if (state.success && state.data) {
+    if (state.success) {
       toast.success(state.message)
     } else {
-      toast.error(state.message || 'register failed')
+      toast.error(state.message || 'Cancel failed')
     }
   }, [state])
 

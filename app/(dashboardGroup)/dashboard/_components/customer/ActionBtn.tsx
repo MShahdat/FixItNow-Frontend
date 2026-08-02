@@ -34,7 +34,7 @@ export function ActionButton({ status, bookingId }: Props) {
       )
     case "COMPLETED":
       return (
-        <ReviewForm />
+        <ReviewForm bookingId={bookingId} />
       )
     default:
       return null

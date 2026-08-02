@@ -64,11 +64,9 @@ export function MyBookingTable({ bookings }: BookingTableProps) {
           </TableRow>
         ) : (
           bookings?.map((booking: any) => (
-            <TableRow key={booking.id} className="">
+            <TableRow key={booking.id}>
               <TableCell>{booking?.serviceTitle}</TableCell>
-              <TableCell>
-                {booking.technicianName}
-              </TableCell>
+              <TableCell> {booking.technicianName} </TableCell>
               <TableCell>{booking.totalAmount}</TableCell>
               <TableCell>{booking.type}</TableCell>
               <TableCell className="capitalize">{booking.service?.type}</TableCell>
@@ -85,7 +83,7 @@ export function MyBookingTable({ bookings }: BookingTableProps) {
                   {formatStatus(booking.status)}
                 </Badge>
               </TableCell>
-              <TableCell className="">
+              <TableCell >
                 <ActionButton status={booking.status} bookingId={booking.id} />
               </TableCell>
             </TableRow>
