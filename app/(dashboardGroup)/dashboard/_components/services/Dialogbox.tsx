@@ -46,18 +46,19 @@ export function DialogService({ mode, service, categories }: Props) {
   const action = mode === "edit" && service ?
     editService.bind(null, service.id) : createService
   const [state, formAction, pending] = useActionState(action, null)
-
-  console.log('state', state)
+  const [hasSubmitted, setHasSubmitted] = useState(false);
 
   useEffect(() => {
-    if (!state) return
+    if (!hasSubmitted || !state) return
+
     if (state.success && state.data) {
       toast.success(state.message)
-      setOpen(false)
     } else {
-      toast.error(state.message || 'register failed')
+      toast.error(state.message || 'upload failed')
     }
-  }, [state])
+
+    setHasSubmitted(false)
+  }, [hasSubmitted, state])
 
 
   // console.log('categories from dialog box', categories)
@@ -102,7 +103,7 @@ export function DialogService({ mode, service, categories }: Props) {
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={setOpen} >
       <DialogTrigger asChild>
         {mode === "edit" ? (
           <Button variant="secondary" size="sm">
@@ -128,7 +129,7 @@ export function DialogService({ mode, service, categories }: Props) {
               : "Update the details of your service."}
           </DialogDescription>
         </DialogHeader>
-        <form action={formAction}>
+        <form action={formAction} onSubmit={() => setHasSubmitted(true)}>
           <FieldGroup className="gap-4 pb-4">
             <Field>
               <Label htmlFor="title">Title</Label>
@@ -170,10 +171,11 @@ export function DialogService({ mode, service, categories }: Props) {
               </Field>
 
               <Field>
-                <Label htmlFor="price">Price ($)</Label>
+                <Label htmlFor="price">Price (৳)</Label>
                 <Input
                   type="number"
                   name="price"
+                  min={0}
                   defaultValue={service?.price ?? ''}
                   required
                 />
@@ -220,7 +222,7 @@ export function DialogService({ mode, service, categories }: Props) {
               <div className="flex gap-2">
                 <Input
                   id="availableAt"
-                  placeholder="e.g. Mon 9AM-5PM"
+                  placeholder="e.g. Monday, Friday"
                   value={availableAtInput}
                   onChange={(e) => setAvailableAtInput(e.target.value)}
                   onKeyDown={(e) => {

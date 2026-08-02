@@ -20,15 +20,15 @@ export const getMe = async () => {
     headers: {
       Cookie: `accessToken=${accessToken}`
     },
-    cache: "force-cache",
-    next: {
-      revalidate: 60 * 60 * 1,
-      tags: ["my-profile"]
-    }
+    cache: "no-cache",
+    // next: {
+    //   revalidate: 60 * 60 * 1,
+    //   tags: ["my-profile"]
+    // }
   })
 
   const result = await res.json()
-  // console.log('get me ', result)
+  console.log('get me ', result)
 
   return result
 

@@ -5,21 +5,20 @@ import { CancelDialog } from "./Cancel"
 import { ViewDialog } from "./View"
 import { PaymentDialog } from "./PaymentForm"
 import { ReviewForm } from "./ReviewForm"
+import { ViewReview } from "./ViewReview"
+import { Booking } from "./MyBookingTable"
 
 
 
-type Props = {
-  status: string,
-  bookingId: string
-}
 
 
-export function ActionButton({ status, bookingId }: Props) {
+export function ActionButton({ booking }: { booking: Booking }) {
+
+  const status = booking?.status
+  const bookingId = booking.id
+
   switch (status) {
     case "REQUESTED":
-      return (
-        <CancelDialog bookingId={bookingId} />
-      )
     case "DECLINED":
       return (
         <CancelDialog bookingId={bookingId} />
@@ -33,9 +32,8 @@ export function ActionButton({ status, bookingId }: Props) {
         <PaymentDialog />
       )
     case "COMPLETED":
-      return (
-        <ReviewForm bookingId={bookingId} />
-      )
+      return booking.review ?
+        <ViewReview booking={booking} /> : <ReviewForm booking={booking} mode="create" />
     default:
       return null
   }

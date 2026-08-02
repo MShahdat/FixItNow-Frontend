@@ -13,15 +13,28 @@ import { Field, FieldGroup } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { Star } from "lucide-react"
+import { Edit, Star } from "lucide-react"
 import { useActionState, useEffect, useState } from "react"
 import { createReview } from "../../_action/customer/createReview"
 import { toast } from "sonner"
+import { Booking } from "./MyBookingTable"
+import { Review } from "./MyReviewCard"
+import { updateReview } from "../../_action/customer/updateReview"
 
-export function ReviewForm({ bookingId }: { bookingId: string }) {
 
+type Props = {
+  booking: Booking,
+  mode?: "edit" | "create"
+}
 
-  const action = createReview.bind(null, bookingId)
+export function ReviewForm({ booking, mode }: Props) {
+
+  const bookingId = booking?.id
+
+  // const action = createReview.bind(null, bookingId)
+  const action = mode === 'edit' && booking.review.id ?
+    updateReview.bind(null, booking.review.id) : createReview.bind(null, bookingId)
+
   const [state, formAction, pending] = useActionState(action, null)
   const [open, setOpen] = useState(false)
 
@@ -40,15 +53,29 @@ export function ReviewForm({ bookingId }: { bookingId: string }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button size="sm" variant="paid">Review</Button>
+        {
+          mode === 'create' ?
+            <Button size="sm" variant="paid">
+              Review
+            </Button> : <button
+              aria-label="Edit review"
+              className="w-8 h-8 rounded-full bg-white/90 border border-gray-200 flex items-center justify-center text-gray-500 hover:text-blue-600 hover:border-blue-200 transition-colors"
+            >
+              <Edit className="w-4 h-4" />
+            </button>
+        }
       </DialogTrigger>
       <DialogContent className="sm:max-w-sm">
         <form action={formAction}>
           <DialogHeader>
-            <DialogTitle>Create review</DialogTitle>
+            <DialogTitle>
+              {mode === 'edit' ? 'Edit Review' : ' Create review'}
+            </DialogTitle>
 
             <DialogDescription>
-              Create your service review!
+              {
+                mode === 'create' ? 'Create your service review!' : 'Update your review! Write honest opinion'
+              }
             </DialogDescription>
           </DialogHeader>
 
@@ -61,7 +88,8 @@ export function ReviewForm({ bookingId }: { bookingId: string }) {
                 type="number"
                 name="rating"
                 max={5}
-                min={0}
+                min={1}
+                defaultValue={booking.review?.rating ?? ''}
                 required
               />
             </Field>
@@ -71,6 +99,7 @@ export function ReviewForm({ bookingId }: { bookingId: string }) {
                 rows={2}
                 placeholder="Write comment...."
                 name="comment"
+                defaultValue={booking.review?.comment ?? ''}
                 required
               />
             </Field>

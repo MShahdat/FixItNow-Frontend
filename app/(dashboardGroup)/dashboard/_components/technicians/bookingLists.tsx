@@ -14,7 +14,8 @@ const BookingLists = async ({ searchParams }: Props) => {
   const bookings = await getBookingByTechnician(searchParams)
   // const up = await bookingStatusUpdate()
 
-  console.log('bookings ', bookings)
+  // console.log('bookings ', bookings)
+
 
   return (
     <div className="">

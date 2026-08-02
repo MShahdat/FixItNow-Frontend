@@ -3,7 +3,16 @@ import { registerSchema } from "@/lib/schemas/register.schema";
 
 type Role = "CUSTOMER" | "TECHNICIAN";
 
-export const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+export const DAYS = [
+  { label: "Sun", value: "Sunday" },
+  { label: "Mon", value: "Monday" },
+  { label: "Tue", value: "Tuesday" },
+  { label: "Wed", value: "Wednesday" },
+  { label: "Thu", value: "Thursday" },
+  { label: "Fri", value: "Friday" },
+  { label: "Sat", value: "Saturday" },
+];
 
 export const mapZodErrors = (issues: z.ZodIssue[]) => {
   const map: Record<string, string> = {};
@@ -37,7 +46,7 @@ export const buildRegisterPayload = (
       skills,
       experience: Number(fd.get("experience")) || undefined,
       hourlyRate: Number(fd.get("hourlyRate")),
-      availability: selectedDays.map((i) => DAYS[i]),
+      availability: selectedDays.map((i) => DAYS[i].value),
     };
   }
 

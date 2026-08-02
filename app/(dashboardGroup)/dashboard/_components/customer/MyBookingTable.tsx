@@ -1,4 +1,6 @@
 
+
+
 import {
   Table,
   TableBody,
@@ -8,12 +10,32 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
-import { BookingTech } from "@/lib/interface"
 import { ActionButton } from "./ActionBtn"
 
 
-interface BookingTableProps {
-  bookings: any
+
+export interface Review {
+  id: string
+  rating: number
+  comment: string
+  createdAt: string
+  updatedAt: string
+}
+
+export interface Booking {
+  id: string
+  serviceTitle: string
+  technicianName: string
+  type: "one-time" | "recurring"
+  duration: string
+  scheduledDate: string
+  status: "REQUESTED" | "ACCEPTED" | "DECLINED" | "IN_PROGRESS" | "CANCELLED" | "COMPLETED"
+  totalAmount: number
+  review: Review
+}
+
+type Props = {
+  bookings: Booking[]
 }
 
 function getStatusVariant(status: string) {
@@ -39,7 +61,7 @@ function formatStatus(status: string) {
   return status.charAt(0) + status.slice(1).toLowerCase()
 }
 
-export function MyBookingTable({ bookings }: BookingTableProps) {
+export function MyBookingTable({ bookings }: Props) {
 
   return (
     <Table>
@@ -63,13 +85,12 @@ export function MyBookingTable({ bookings }: BookingTableProps) {
             </TableCell>
           </TableRow>
         ) : (
-          bookings?.map((booking: any) => (
+          bookings?.map((booking: Booking) => (
             <TableRow key={booking.id}>
               <TableCell>{booking?.serviceTitle}</TableCell>
               <TableCell> {booking.technicianName} </TableCell>
               <TableCell>{booking.totalAmount}</TableCell>
               <TableCell>{booking.type}</TableCell>
-              <TableCell className="capitalize">{booking.service?.type}</TableCell>
               <TableCell>{booking.duration}</TableCell>
               <TableCell>
                 {new Date(booking.scheduledDate).toLocaleDateString("en-US", {
@@ -84,7 +105,7 @@ export function MyBookingTable({ bookings }: BookingTableProps) {
                 </Badge>
               </TableCell>
               <TableCell >
-                <ActionButton status={booking.status} bookingId={booking.id} />
+                <ActionButton booking={booking} />
               </TableCell>
             </TableRow>
           ))

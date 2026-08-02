@@ -3,7 +3,7 @@ import React from 'react';
 const ProfilePage = () => {
   return (
     <div>
-      curtomer profile page
+      curtomer dashboard profile page
     </div>
   );
 };

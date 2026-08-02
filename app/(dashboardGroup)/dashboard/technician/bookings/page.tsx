@@ -16,6 +16,11 @@ const BookingPage = async ({
 
   const bookings = await getBookingByTechnician(search)
 
+  if (!bookings.success || !bookings.data?.length) {
+    return (
+      <p className="py-12 text-center text-red-700">No booking found</p>
+    )
+  }
 
   return (
     <div className='max-w-7xl mx-auto px-2 py-4'>

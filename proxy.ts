@@ -6,7 +6,7 @@ import { createAccessToken } from './services/createAccessToken'
 import { jwtToken } from './util/jwt'
 
 const AUTH_ROUTES = ['/login', '/register']
-const PUBLIC_ROUTES = ['/', '/services', '/technicians', '/about', '/contact']
+const PUBLIC_ROUTES = ['/', '/services', '/technicians', '/about', '/contact', '/suport']
 
 
 export async function proxy(request: NextRequest) {

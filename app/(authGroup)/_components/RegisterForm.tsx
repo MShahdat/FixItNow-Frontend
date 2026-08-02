@@ -14,7 +14,7 @@ import { buildRegisterPayload, DAYS, mapZodErrors, validateAccountStep, validate
 
 
 type Role = "CUSTOMER" | "TECHNICIAN";
-// const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
 
 const RegisterForm = () => {
   const [role, setRole] = useState<Role>("CUSTOMER");
@@ -156,7 +156,7 @@ const RegisterForm = () => {
         <input
           type="hidden"
           name="availability"
-          value={JSON.stringify(selectedDays.map((i) => DAYS[i]))}
+          value={JSON.stringify(selectedDays.map((i) => DAYS[i].value))}
         />
 
         <div className={step === 1 ? "" : "hidden"}>
@@ -392,7 +392,7 @@ const RegisterForm = () => {
                     : "border border-gray-300 text-gray-400"
                 )}
               >
-                {d}
+                {d.label}
               </button>
             ))}
           </div>
