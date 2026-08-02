@@ -24,7 +24,7 @@ import { useRouter } from "next/dist/client/components/navigation"
 export function StatusUpdateForm({ booking }: { booking: BookingTech }) {
   const [open, setOpen] = useState(false)
 
-  const SERVICE_TYPES = ["ACCEPTED", "REQUESTED", "REJECTED", "IN_PROGRESS", "COMPLETED", "CANCELLED"]
+  const SERVICE_TYPES = ["ACCEPTED", "REQUESTED", "DECLINED", "IN_PROGRESS", "COMPLETED", "CANCELLED"]
   const [type, setType] = useState(booking?.status ?? "")
 
   const action = bookingStatusUpdate.bind(null, booking?.id)
