@@ -17,9 +17,8 @@ import { Edit, Star } from "lucide-react"
 import { useActionState, useEffect, useState } from "react"
 import { createReview } from "../../_action/customer/createReview"
 import { toast } from "sonner"
-import { Booking } from "./MyBookingTable"
-import { Review } from "./MyReviewCard"
 import { updateReview } from "../../_action/customer/updateReview"
+import { Booking } from "@/lib/interface"
 
 
 type Props = {
@@ -37,17 +36,19 @@ export function ReviewForm({ booking, mode }: Props) {
 
   const [state, formAction, pending] = useActionState(action, null)
   const [open, setOpen] = useState(false)
+  const [hasSubmitted, setHasSubmitted] = useState(false);
 
 
   useEffect(() => {
-    if (!state) return
+    if (!hasSubmitted || !state) return
     if (state.success) {
       toast.success(state.message)
+      setOpen(false)
     } else {
-      toast.error(state.message || 'create review failed')
+      toast.error(state.message || 'Action failed')
     }
-    setOpen(false)
-  }, [state])
+    setHasSubmitted(false)
+  }, [state, hasSubmitted])
 
 
   return (
@@ -66,7 +67,7 @@ export function ReviewForm({ booking, mode }: Props) {
         }
       </DialogTrigger>
       <DialogContent className="sm:max-w-sm">
-        <form action={formAction}>
+        <form action={formAction} onSubmit={() => setHasSubmitted(true)}>
           <DialogHeader>
             <DialogTitle>
               {mode === 'edit' ? 'Edit Review' : ' Create review'}

@@ -10,7 +10,7 @@ const ServiceHeader = ({ service }: { service: any }) => {
   console.log('service part', service)
 
   return (
-    <div className="space-y-3">
+    <div className="mt-3 space-y-3">
       <Badge variant="default" className="capitalize">
         {service?.category?.name}
       </Badge>
@@ -27,7 +27,7 @@ const ServiceHeader = ({ service }: { service: any }) => {
         <span>(39 reviews)</span>
         <Separator orientation="vertical" className="h-4 hidden sm:block" />
         <span>
-          Provided by <span className="text-foreground font-medium">
+          Provided by <span className="text-foreground font-semibold">
             {service.technician?.user?.firstName} {service.technician?.user?.lastName}
           </span>
         </span>
@@ -42,8 +42,8 @@ const ServiceHeader = ({ service }: { service: any }) => {
           <Clock className="h-4 w-4 text-muted-foreground" />
           <span>{service.duration}</span>
         </div>
-        <div className="flex items-center gap-1.5 text-sm">
-          <BadgeCent className="h-4 w-4 text-muted-foreground" />
+        <div className="flex items-center gap-1.5 text-sm font-medium text-primary">
+          <BadgeCent className="h-4 w-4" />
           <span>Guaranteed</span>
         </div>
       </div>

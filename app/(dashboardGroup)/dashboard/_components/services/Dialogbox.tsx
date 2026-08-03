@@ -1,6 +1,6 @@
 "use client"
 
-import { act, useActionState, useEffect, useState } from "react"
+import { useActionState, useEffect, useState } from "react"
 import { Plus, X, ImagePlus, PencilIcon, PlusIcon, Edit } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -43,16 +43,21 @@ type Props = {
 
 export function DialogService({ mode, service, categories }: Props) {
 
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+  const [open, setOpen] = useState(false)
+
+
   const action = mode === "edit" && service ?
     editService.bind(null, service.id) : createService
   const [state, formAction, pending] = useActionState(action, null)
-  const [hasSubmitted, setHasSubmitted] = useState(false);
+
 
   useEffect(() => {
     if (!hasSubmitted || !state) return
 
-    if (state.success && state.data) {
+    if (state.success) {
       toast.success(state.message)
+      setOpen(false)
     } else {
       toast.error(state.message || 'upload failed')
     }
@@ -62,8 +67,6 @@ export function DialogService({ mode, service, categories }: Props) {
 
 
   // console.log('categories from dialog box', categories)
-
-  const [open, setOpen] = useState(false)
 
   const [coverPreview, setCoverPreview] = useState<string | undefined>(service?.cover)
   const [categoryId, setCategoryId] = useState(service?.categoryId ?? "")

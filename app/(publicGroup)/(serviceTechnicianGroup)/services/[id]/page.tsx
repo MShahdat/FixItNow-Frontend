@@ -128,7 +128,7 @@ const ServiceByIdPage = async ({
                   <div className="flex flex-wrap gap-2">
                     {serviceData.availableAt?.map((slot: string) => (
                       <span key={slot} className="rounded-full bg-secondary/10 px-3 py-1 text-xs font-medium text-secondary">
-                        {slot}
+                        {slot ?? 'All Day'}
                       </span>
                     ))}
                   </div>

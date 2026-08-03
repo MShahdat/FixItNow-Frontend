@@ -1,5 +1,6 @@
 'use server'
 
+import { revalidateTag } from "next/cache"
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 import { toast } from "sonner"
@@ -33,6 +34,7 @@ export const createBookingAction = async (serviceId: string, previousState: any,
   if (result.success) {
     // toast.success(result.message)
     // redirect('/dashboard/customer/bookings')
+    revalidateTag('customer-bookings', { expire: 0 })
   }
 
   return result

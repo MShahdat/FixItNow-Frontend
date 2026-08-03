@@ -2,6 +2,11 @@ export type ROLE = 'CUSTOMER' | 'ADMIN' | 'TECHNICIAN'
 
 export type UserStatus = "ACTIVE" | "BLOCKED"
 
+export type BookingStatus = "REQUESTED" | "ACCEPTED" | "DECLINED" | "IN_PROGRESS" | "COMPLETED" | "CANCELLED";
+
+
+export type PaymentStatus = "PAID" | "PENDING" | "FAILED" | "REFUND";
+
 
 export type LoginState = {
   success: boolean
@@ -118,6 +123,28 @@ export interface MY_SERVICE {
 }
 
 
+export interface Review {
+  id: string
+  rating: number
+  comment: string
+  createdAt: string
+  updatedAt: string
+}
+
+
+export interface Booking {
+  id: string
+  serviceTitle: string
+  technicianName: string
+  type: "one-time" | "recurring"
+  duration: string
+  scheduledDate: string
+  status: "REQUESTED" | "ACCEPTED" | "DECLINED" | "IN_PROGRESS" | "CANCELLED" | "COMPLETED"
+  totalAmount: number
+  review: Review
+}
+
+
 
 export interface Categories {
   id: string
@@ -169,4 +196,16 @@ export interface BookingTech {
   }
   scheduledDate: string
   status: "ACCEPTED" | "REQUESTED" | "REJECTED" | "COMPLETED" | "CANCELLED" | string
+}
+
+
+export interface IBookingPaymentDetails {
+  id: string;
+  transactionId: string;
+  paymentIntentId: string;
+  amount: string;
+  paymentStatus: PaymentStatus;
+  paidAt: string;
+  bookingStatus: BookingStatus;
+  scheduledDate: string;
 }

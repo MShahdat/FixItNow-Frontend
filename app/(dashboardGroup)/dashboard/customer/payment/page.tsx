@@ -56,7 +56,7 @@ const PaymentPage = async () => {
         </div>
 
         <div className="mt-8">
-          <p className="text-xl md:text-2xl font-semibold">Information</p>
+          {/* <p className="text-xl md:text-2xl font-semibold">Information</p> */}
           <MyPaymentTable payments={payments} />
         </div>
       </div>

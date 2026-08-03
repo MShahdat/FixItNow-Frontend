@@ -5,8 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardHeader } from '@/components/ui/card';
 import { Star, Clock, DollarSign, Calendar, Pencil, Trash2, Edit2, Edit } from 'lucide-react';
 import { ReviewForm } from './ReviewForm';
-import { Booking } from './MyBookingTable';
 import { DeleteDialog } from './Delete';
+import { Booking } from '@/lib/interface';
 
 export interface Review {
   id: string;

@@ -62,7 +62,7 @@ export function StatusUpdateForm({ booking }: { booking: BookingTech }) {
               Only 'Accept' or 'Declined' on new incoming bookings. And 'Completed' for jobs with status 'In-Progress'.
             </DialogDescription>
           </DialogHeader>
-          <FieldGroup>
+          <FieldGroup className="mt-6">
             <Field>
               <Label>Status</Label>
               <Select name="status" value={type} onValueChange={setType} required>

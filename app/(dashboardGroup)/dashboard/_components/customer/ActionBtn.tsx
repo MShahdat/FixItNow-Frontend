@@ -2,20 +2,17 @@
 
 
 import { CancelDialog } from "./Cancel"
-import { ViewDialog } from "./View"
-import { PaymentDialog } from "./PaymentForm"
+import { ViewPaymentStatus } from "./ViewPaymentStatus"
 import { ReviewForm } from "./ReviewForm"
 import { ViewReview } from "./ViewReview"
-import { Booking } from "./MyBookingTable"
+import { Booking } from "./MyBookingCard"
 import { Button } from "@/components/ui/button"
 import { payment } from "../../_action/customer/payment"
 import { toast } from "sonner"
 import { redirect } from "next/navigation"
 
 
-
 export function ActionButton({ booking }: { booking: Booking }) {
-
 
   const handlePay = async () => {
     console.log('booking id from button ', booking.id)
@@ -25,12 +22,10 @@ export function ActionButton({ booking }: { booking: Booking }) {
     if (pay.success) {
       const url = pay.data?.paymentUrl
       redirect(url)
-
-    } else {
+    }
+    else {
       toast.error(pay.message ?? "payment failed")
     }
-
-
   }
 
   const status = booking?.status
@@ -44,7 +39,7 @@ export function ActionButton({ booking }: { booking: Booking }) {
       )
     case "IN_PROGRESS":
       return (
-        <ViewDialog />
+        <ViewPaymentStatus bookingId={bookingId} />
       )
     case "ACCEPTED":
       return (
