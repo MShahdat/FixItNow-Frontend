@@ -55,7 +55,7 @@ const MyReviewCard = ({ review, bookings }: MyReviewCardProps) => {
   const booking = bookings.find((book) => book.id === review.bookingId)
 
   return (
-    <Card className="rounded-2xl border border-gray-200 shadow-sm overflow-hidden h-[340px] flex flex-col relative">
+    <Card className="rounded-2xl border border-gray-200 shadow-sm overflow-hidden min-h[200px] max-h[340px] flex flex-col relative">
 
       <div className="absolute top-3 right-3 flex items-center gap-1 z-10">
 

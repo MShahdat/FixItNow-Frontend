@@ -26,6 +26,7 @@ export function StatusUpdateForm({ booking }: { booking: BookingTech }) {
 
   const SERVICE_TYPES = ["ACCEPTED", "REQUESTED", "DECLINED", "IN_PROGRESS", "COMPLETED", "CANCELLED"]
   const [type, setType] = useState(booking?.status ?? "")
+  const [hasSubmitted, setHasSubmitted] = useState(false);
 
   const action = bookingStatusUpdate.bind(null, booking?.id)
   const [state, formAction, pending] = useActionState(action, null)
@@ -33,17 +34,18 @@ export function StatusUpdateForm({ booking }: { booking: BookingTech }) {
   const router = useRouter()
 
   useEffect(() => {
-    if (!state) return
+    if (!hasSubmitted || !state) return
+
     if (state.success && state.data) {
       toast.success(state.message)
       setOpen(false)
-      router.refresh()
     } else {
-      toast.error(state.message || 'Status update failed')
       setOpen(false)
-      router.refresh()
+      toast.error(state.message || 'register failed')
     }
-  }, [state])
+
+    setHasSubmitted(false)
+  }, [hasSubmitted, state])
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -53,7 +55,7 @@ export function StatusUpdateForm({ booking }: { booking: BookingTech }) {
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-sm">
-        <form action={formAction}>
+        <form action={formAction} onSubmit={() => setHasSubmitted(true)}>
           <DialogHeader>
             <DialogTitle>Update Status</DialogTitle>
             <DialogDescription>

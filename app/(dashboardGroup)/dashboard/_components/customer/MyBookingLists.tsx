@@ -12,7 +12,7 @@ type Props = {
 const MyBookingLists = async ({ searchParams }: Props) => {
 
   const bookings = await getMyBookings(searchParams)
-  console.log('customer bookings ', bookings)
+  // console.log('customer bookings ', bookings)
 
 
   if (!bookings.success || !bookings.data?.length) {
@@ -23,7 +23,7 @@ const MyBookingLists = async ({ searchParams }: Props) => {
 
 
   return (
-    <div className="">
+    <div className="pb-20">
       <MyBookingTable bookings={bookings?.data} />
     </div>
   );

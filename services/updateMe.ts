@@ -16,9 +16,9 @@ export const updateProfile = async (previousState: any, formData: FormData) => {
 
   const base = {
     // profileImage: formData.get('profileImage') ?? null,
-    address: formData.get('address'),
-    city: formData.get('city'),
-
+    phone: formData.get('phone') ?? null,
+    address: formData.get('address') ?? null,
+    city: formData.get('city') ?? null,
   };
 
   const payload =

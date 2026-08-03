@@ -14,13 +14,15 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar"
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { customerItems } from "../_config/customerItems";
 import { technicianItems } from "../_config/technicianItems";
 import { adminItems } from "../_config/adminItems";
 import { Fullscreen, LogOut, Settings, UserRound } from "lucide-react";
 import { DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { toast } from "sonner";
+import { logout } from "@/app/(authGroup)/_action/logoutAction";
 
 
 const sidebarManuItems = {
@@ -43,9 +45,18 @@ export function DashboardSidebar({ user }: any) {
     navItems = sidebarManuItems.ADMIN
   }
 
-
   const pathname = usePathname();
+  const router = useRouter()
 
+  const handleLogout = async (action: string) => {
+    console.log('clike logout')
+    if (action === 'logout') {
+      await logout()
+      toast.success('Logout successfully')
+      router.push('/login')
+    }
+
+  }
   return (
     // <Sidebar variant="floating" collapsible="icon" className=" h-[calc(100svh-0rem)] border-r border-sidebar-border">
     <Sidebar variant="floating" collapsible="icon" className=" h-[92vh] border-r border-sidebar-border">
@@ -92,11 +103,13 @@ export function DashboardSidebar({ user }: any) {
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton>
-              <p className="text-red-600 flex items-center gap-2">
+            <SidebarMenuButton onClick={() => {
+              handleLogout('logout')
+            }}>
+              <div className="text-red-600 flex items-center gap-2">
                 <LogOut />
                 <span>Logout</span>
-              </p>
+              </div>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

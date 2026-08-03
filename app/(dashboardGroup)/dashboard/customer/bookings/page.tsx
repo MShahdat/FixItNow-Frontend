@@ -28,12 +28,12 @@ const BookingPage = async ({
 
   return (
     <div className='max-w-7xl mx-auto px-2 py-4'>
-      <div className='flxe flex-col space-y-6'>
-        <div className='flex flex-col sm:flex-row justify-between space-y-2'>
+      <div className='flex flex-col gap-6'>
+        <div className='flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between'>
           <p className='text-xl md:text-2xl whitespace-nowrap font-semibold'>Manage Bookings</p>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
             <div className="flex items-center gap-2">
-              <p className="whitespace-nowrap">Per Page: </p>
+              <p className="whitespace-nowrap">Per Page:</p>
               <CardShow />
             </div>
             <SearchBar />

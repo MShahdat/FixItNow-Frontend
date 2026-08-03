@@ -14,6 +14,8 @@ import {
   Crown,
   Newspaper,
   Contact,
+  NotebookIcon,
+  Bell,
 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -36,6 +38,7 @@ import { useRouter } from "next/navigation"
 import { NavbarProps } from "@/lib/interface"
 import { fullName } from "@/services/fullName"
 import { logout } from "@/app/(authGroup)/_action/logoutAction"
+import { Theme } from "./Theme"
 
 const navLinks = [
   { label: "Home", href: "/", icon: LayoutDashboard },
@@ -137,6 +140,11 @@ export function Navbar({ user }: NavbarProps) {
               </DropdownMenuGroup>
             </DropdownMenuContent>
           </DropdownMenu>
+
+          <div className="px-1 flex items-center gap-2">
+            <Theme />
+            <Bell />
+          </div>
           {user.success ? (
             <div className="flex items-center gap-2">
               {/* User dropdown */}

@@ -79,7 +79,7 @@ export function ViewReview({ booking }: { booking: Booking }) {
     <Dialog>
       <DialogTrigger asChild>
         <Button size="sm" variant="accepted">
-          View
+          View Review
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">

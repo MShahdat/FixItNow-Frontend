@@ -72,6 +72,10 @@ const Profile = ({ profile }: { profile: User }) => {
   const [showSkillInput, setShowSkillInput] = useState(false);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [phone, setPhone] = useState(profile.phone ?? "");
+  const [address, setAddress] = useState(profile.address ?? "");
+  const [city, setCity] = useState(profile.city ?? "");
+  const [hourlyRate, setHourlyRate] = useState(profile?.technicianProfile?.hourlyRate?.toString() ?? "");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const addSkill = () => {
@@ -104,6 +108,13 @@ const Profile = ({ profile }: { profile: User }) => {
       if (previewImage) URL.revokeObjectURL(previewImage);
     };
   }, [previewImage]);
+
+  useEffect(() => {
+    setPhone(profile.phone ?? "");
+    setAddress(profile.address ?? "");
+    setCity(profile.city ?? "");
+    setHourlyRate(profile?.technicianProfile?.hourlyRate?.toString() ?? "");
+  }, [profile]);
 
   useEffect(() => {
     if (!profile.technicianProfile) return;
@@ -188,7 +199,6 @@ const Profile = ({ profile }: { profile: User }) => {
                   {profile.status?.toLowerCase()}
                 </Badge>
               </div>
-              <p className='text-sm -mt-1'>{profile.email}</p>
               <p className="text-sm text-zinc-500 mt-1">{profile.role}</p>
               {profile.technicianProfile && (
                 <p className="text-sm font-medium text-violet-700">
@@ -202,20 +212,40 @@ const Profile = ({ profile }: { profile: User }) => {
         {/* Form sections */}
         <CardContent className="space-y-8 py-6">
 
+          {
+            profile.role === "TECHNICIAN" &&
+            <div>
+              <SectionLabel>Bio</SectionLabel>
+              <Field>
+                <Label htmlFor="bio" className="sr-only">Bio</Label>
+                <Textarea
+                  id="bio"
+                  rows={4}
+                  defaultValue={profile.technicianProfile?.bio ?? ''}
+                  name="bio"
+                  placeholder="Tell customers a little about yourself..."
+                  required
+                  className="resize-none"
+                />
+              </Field>
+            </div>
+          }
           <div>
-            <SectionLabel>Bio</SectionLabel>
-            <Field>
-              <Label htmlFor="bio" className="sr-only">Bio</Label>
-              <Textarea
-                id="bio"
-                rows={4}
-                defaultValue={profile.technicianProfile?.bio ?? ''}
-                name="bio"
-                placeholder="Tell customers a little about yourself..."
-                required
-                className="resize-none"
-              />
-            </Field>
+            <SectionLabel>Contact</SectionLabel>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Field>
+                <Label htmlFor="email" className="text-sm font-medium text-zinc-700 mb-1.5 block">
+                  Email Address
+                </Label>
+                <Input name="email" type="text" defaultValue={profile.email ?? ''} readOnly />
+              </Field>
+              <Field>
+                <Label htmlFor="phone" className="text-sm font-medium text-zinc-700 mb-1.5 block">
+                  Phone Number
+                </Label>
+                <Input name="phone" type="text" value={phone} onChange={(e) => setPhone(e.target.value)} />
+              </Field>
+            </div>
           </div>
 
           <div>
@@ -225,109 +255,120 @@ const Profile = ({ profile }: { profile: User }) => {
                 <Label htmlFor="address" className="text-sm font-medium text-zinc-700 mb-1.5 block">
                   Address
                 </Label>
-                <Input id="address" name="address" type="text" defaultValue={profile.address ?? ''} />
+                <Input id="address" name="address" type="text" value={address} onChange={(e) => setAddress(e.target.value)} />
               </Field>
               <Field>
                 <Label htmlFor="city" className="text-sm font-medium text-zinc-700 mb-1.5 block">
                   City
                 </Label>
-                <Input id="city" name="city" type="text" defaultValue={profile.city ?? ''} />
+                <Input id="city" name="city" type="text" value={city} onChange={(e) => setCity(e.target.value)} />
               </Field>
             </div>
           </div>
 
-          <div>
-            <SectionLabel>Pricing & performance</SectionLabel>
-            <div className="grid grid-cols-2 gap-4">
-              <Field>
-                <Label htmlFor="fee" className="text-sm font-medium text-zinc-700 mb-1.5 block">
-                  Hourly rate (৳)
-                </Label>
-                <Input
-                  id="fee"
-                  type="number"
-                  name="fee"
-                  defaultValue={profile?.technicianProfile?.hourlyRate ?? ''}
-                />
-              </Field>
-              <Field>
-                <Label htmlFor="completeJobs" className="text-sm font-medium text-zinc-700 mb-1.5 block">
-                  Completed jobs
-                </Label>
-                <Input
-                  id="completeJobs"
-                  type="number"
-                  name="completeJobs"
-                  defaultValue={profile.technicianProfile?.completedJobs ?? 0}
-                  required
-                  readOnly
-                  className="bg-zinc-50 text-zinc-500 cursor-not-allowed"
-                />
-              </Field>
+          {
+            profile.role === "TECHNICIAN" &&
+            <div>
+              <SectionLabel>Pricing & performance</SectionLabel>
+              <div className="grid grid-cols-2 gap-4">
+                <Field>
+                  <Label htmlFor="fee" className="text-sm font-medium text-zinc-700 mb-1.5 block">
+                    Hourly rate (৳)
+                  </Label>
+                  <Input
+                    id="fee"
+                    type="number"
+                    name="hourlyRate"
+                    min={0}
+                    value={hourlyRate}
+                    onChange={(e) => setHourlyRate(e.target.value)}
+                  />
+                </Field>
+                <Field>
+                  <Label htmlFor="completeJobs" className="text-sm font-medium text-zinc-700 mb-1.5 block">
+                    Completed jobs
+                  </Label>
+                  <Input
+                    id="completeJobs"
+                    type="number"
+                    name="completeJobs"
+                    defaultValue={profile.technicianProfile?.completedJobs ?? 0}
+                    required
+                    readOnly
+                    className="bg-zinc-50 text-zinc-500 cursor-not-allowed"
+                  />
+                </Field>
+              </div>
             </div>
-          </div>
+          }
 
-          <div>
-            <SectionLabel>Skills</SectionLabel>
-            <div className="flex flex-wrap items-center gap-2">
-              {skills.map((skill) => (
-                <span
-                  key={skill}
-                  className="inline-flex items-center gap-1.5 bg-violet-50 text-violet-700 text-sm font-medium pl-3 pr-2 py-1.5 rounded-full"
-                >
-                  {skill}
+          {
+            profile.role === 'TECHNICIAN' &&
+            <div>
+              <SectionLabel>Skills</SectionLabel>
+              <div className="flex flex-wrap items-center gap-2">
+                {skills.map((skill) => (
+                  <span
+                    key={skill}
+                    className="inline-flex items-center gap-1.5 bg-violet-50 text-violet-700 text-sm font-medium pl-3 pr-2 py-1.5 rounded-full"
+                  >
+                    {skill}
+                    <button
+                      type="button"
+                      onClick={() => removeSkill(skill)}
+                      className="rounded-full p-0.5 hover:bg-violet-100 transition-colors"
+                      aria-label={`Remove ${skill}`}
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  </span>
+                ))}
+                {showSkillInput ? (
+                  <input
+                    autoFocus
+                    value={skillInput}
+                    onChange={(e) => setSkillInput(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && addSkill()}
+                    onBlur={addSkill}
+                    placeholder="Add skill"
+                    className="border border-dashed border-zinc-300 rounded-full px-3 py-1.5 text-sm w-32 focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-400"
+                  />
+                ) : (
                   <button
                     type="button"
-                    onClick={() => removeSkill(skill)}
-                    className="rounded-full p-0.5 hover:bg-violet-100 transition-colors"
-                    aria-label={`Remove ${skill}`}
+                    onClick={() => setShowSkillInput(true)}
+                    className="inline-flex items-center gap-1 border border-dashed border-zinc-300 text-zinc-500 text-sm font-medium px-3 py-1.5 rounded-full hover:border-violet-400 hover:text-violet-700 transition-colors"
                   >
-                    <X className="w-3.5 h-3.5" />
+                    <Plus className="w-3.5 h-3.5" /> Add skill
                   </button>
-                </span>
-              ))}
-              {showSkillInput ? (
-                <input
-                  autoFocus
-                  value={skillInput}
-                  onChange={(e) => setSkillInput(e.target.value)}
-                  onKeyDown={(e) => e.key === "Enter" && addSkill()}
-                  onBlur={addSkill}
-                  placeholder="Add skill"
-                  className="border border-dashed border-zinc-300 rounded-full px-3 py-1.5 text-sm w-32 focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-400"
-                />
-              ) : (
-                <button
-                  type="button"
-                  onClick={() => setShowSkillInput(true)}
-                  className="inline-flex items-center gap-1 border border-dashed border-zinc-300 text-zinc-500 text-sm font-medium px-3 py-1.5 rounded-full hover:border-violet-400 hover:text-violet-700 transition-colors"
-                >
-                  <Plus className="w-3.5 h-3.5" /> Add skill
-                </button>
-              )}
+                )}
+              </div>
             </div>
-          </div>
+          }
 
-          <div>
-            <SectionLabel>Available days</SectionLabel>
-            <div className="flex flex-wrap gap-2">
-              {DAYS.map((d, i) => (
-                <button
-                  key={d.value}
-                  type="button"
-                  onClick={() => toggleDay(i)}
-                  className={cn(
-                    "w-11 h-9 rounded-lg text-xs font-semibold flex items-center justify-center transition-colors focus:outline-none focus:ring-2 focus:ring-violet-500/30",
-                    selectedDays.includes(i)
-                      ? "bg-zinc-900 text-white"
-                      : "border border-zinc-200 text-zinc-400 hover:border-zinc-300 hover:text-zinc-600"
-                  )}
-                >
-                  {d.label}
-                </button>
-              ))}
+          {
+            profile.role === 'TECHNICIAN' &&
+            <div>
+              <SectionLabel>Available days</SectionLabel>
+              <div className="flex flex-wrap gap-2">
+                {DAYS.map((d, i) => (
+                  <button
+                    key={d.value}
+                    type="button"
+                    onClick={() => toggleDay(i)}
+                    className={cn(
+                      "w-11 h-9 rounded-lg text-xs font-semibold flex items-center justify-center transition-colors focus:outline-none focus:ring-2 focus:ring-violet-500/30",
+                      selectedDays.includes(i)
+                        ? "bg-zinc-900 text-white"
+                        : "border border-zinc-200 text-zinc-400 hover:border-zinc-300 hover:text-zinc-600"
+                    )}
+                  >
+                    {d.label}
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
+          }
 
         </CardContent>
 

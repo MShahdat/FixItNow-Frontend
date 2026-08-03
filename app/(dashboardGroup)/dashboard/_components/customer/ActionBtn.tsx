@@ -7,12 +7,31 @@ import { PaymentDialog } from "./PaymentForm"
 import { ReviewForm } from "./ReviewForm"
 import { ViewReview } from "./ViewReview"
 import { Booking } from "./MyBookingTable"
-
-
+import { Button } from "@/components/ui/button"
+import { payment } from "../../_action/customer/payment"
+import { toast } from "sonner"
+import { redirect } from "next/navigation"
 
 
 
 export function ActionButton({ booking }: { booking: Booking }) {
+
+
+  const handlePay = async () => {
+    console.log('booking id from button ', booking.id)
+    const pay = await payment(bookingId as string)
+    console.log('pay======', pay)
+
+    if (pay.success) {
+      const url = pay.data?.paymentUrl
+      redirect(url)
+
+    } else {
+      toast.error(pay.message ?? "payment failed")
+    }
+
+
+  }
 
   const status = booking?.status
   const bookingId = booking.id
@@ -29,7 +48,12 @@ export function ActionButton({ booking }: { booking: Booking }) {
       )
     case "ACCEPTED":
       return (
-        <PaymentDialog />
+        <Button
+          onClick={() => {
+            handlePay()
+          }}
+          size="sm" variant="default">Payment</Button>
+        // <PaymentDialog />
       )
     case "COMPLETED":
       return booking.review ?
