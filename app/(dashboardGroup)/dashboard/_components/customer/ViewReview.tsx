@@ -10,8 +10,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Star, User, Wrench, CalendarClock } from "lucide-react"
-import { Booking } from "./MyBookingCard"
-
+import { Booking } from "@/lib/interface"
 
 
 function StarRating({ rating }: { rating: number }) {

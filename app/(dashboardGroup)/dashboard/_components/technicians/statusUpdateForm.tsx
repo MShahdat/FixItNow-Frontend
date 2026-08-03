@@ -25,13 +25,13 @@ export function StatusUpdateForm({ booking }: { booking: BookingTech }) {
   const [open, setOpen] = useState(false)
 
   const SERVICE_TYPES = ["ACCEPTED", "REQUESTED", "DECLINED", "IN_PROGRESS", "COMPLETED", "CANCELLED"]
-  const [type, setType] = useState(booking?.status ?? "")
+
+  const [type, setType] = useState<string>(booking.status)
   const [hasSubmitted, setHasSubmitted] = useState(false);
 
   const action = bookingStatusUpdate.bind(null, booking?.id)
   const [state, formAction, pending] = useActionState(action, null)
 
-  const router = useRouter()
 
   useEffect(() => {
     if (!hasSubmitted || !state) return

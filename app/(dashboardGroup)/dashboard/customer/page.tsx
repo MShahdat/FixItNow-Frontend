@@ -10,6 +10,8 @@ import { Booking } from "@/lib/interface";
 import MyBookingLists from "../_components/customer/MyBookingLists";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { getMe } from "@/services/getMe";
+import { fullName } from "@/services/fullName";
 
 
 const PAID_STATUS = "PAID";
@@ -28,6 +30,8 @@ const DashboardPage = async ({
 
   const allBooking = bookings?.data ?? []
 
+  const me = await getMe()
+  const name = fullName(me)
 
   const succeeded = payments?.data.filter(
     (p: any) => p.status === PAID_STATUS && p.paidAt
@@ -87,7 +91,7 @@ const DashboardPage = async ({
   return (
     <div className="max-w-7xl mx-auto px-2 py-10">
       <div className="flex flex-col space-y-6">
-        <p className="text-2xl text-center md:text-3xl xl:text-4xl font-semibold pb-8">Welcome Backe, Shahdat Hossain</p>
+        <p className="text-2xl text-center md:text-3xl xl:text-4xl font-semibold pb-8">Welcome Backe, {name}</p>
 
         <div className="max-w-6xl flex flex-wrap justify-evenly gap-6">
           {stats.map(({ label, value, icon: Icon, iconBg, iconColor, unit }) => (

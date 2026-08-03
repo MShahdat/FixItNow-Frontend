@@ -136,10 +136,10 @@ export interface Booking {
   id: string
   serviceTitle: string
   technicianName: string
-  type: "one-time" | "recurring"
+  type: "one-time" | "recurring" | "package"
   duration: string
   scheduledDate: string
-  status: "REQUESTED" | "ACCEPTED" | "DECLINED" | "IN_PROGRESS" | "CANCELLED" | "COMPLETED"
+  status: BookingStatus
   totalAmount: number
   review: Review
 }
@@ -195,7 +195,7 @@ export interface BookingTech {
     type: string
   }
   scheduledDate: string
-  status: "ACCEPTED" | "REQUESTED" | "REJECTED" | "COMPLETED" | "CANCELLED" | string
+  status: BookingStatus
 }
 
 
@@ -208,4 +208,15 @@ export interface IBookingPaymentDetails {
   paidAt: string;
   bookingStatus: BookingStatus;
   scheduledDate: string;
+}
+
+
+
+export interface IncomingBook {
+  bookingId: string
+  profileImage: string
+  customerName: string
+  serviceName: string
+  scheduledDate: string
+  totalAmount: string
 }

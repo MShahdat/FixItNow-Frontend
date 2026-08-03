@@ -6,7 +6,7 @@ import { getCategories } from '../../_action/getCategories';
 
 const MyServiceLists = async () => {
   const services = await getMyServices()
-  // console.log('services ', services)
+  console.log('my services..........', services)
 
 
   const categories = await getCategories()

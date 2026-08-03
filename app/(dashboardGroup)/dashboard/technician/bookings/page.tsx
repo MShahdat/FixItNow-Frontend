@@ -16,17 +16,21 @@ const BookingPage = async ({
 
   const bookings = await getBookingByTechnician(search)
 
+  console.log('bookings .........', bookings)
+
   if (!bookings.success || !bookings.data?.length) {
     return (
       <p className="py-12 text-center text-red-700">No booking found</p>
     )
   }
 
+  const len = bookings.data.length ?? 0
+
   return (
     <div className='max-w-7xl mx-auto px-2 py-4'>
       <div className='flxe flex-col space-y-6'>
         <div className='flex flex-col sm:flex-row justify-between space-y-2'>
-          <p className='text-xl md:text-2xl whitespace-nowrap font-semibold'>Manage Bookings</p>
+          <p className='text-xl md:text-2xl whitespace-nowrap font-semibold'>Manage Bookings ({len})</p>
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
               <p className="whitespace-nowrap">Per Page: </p>

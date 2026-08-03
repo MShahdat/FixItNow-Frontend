@@ -11,18 +11,22 @@ import React from 'react';
 import MyServiceLists from '../../_components/services/MyServiceLists';
 import { DialogService } from '../../_components/services/Dialogbox';
 import { getCategories } from '../../_action/getCategories';
+import { getServices } from '@/app/(publicGroup)/(serviceTechnicianGroup)/_action/getServices';
+import { getMyServices } from '../../_action/getMyservices';
 
 
 const ServicePage = async () => {
 
   const categories = await getCategories()
+  const services = await getMyServices()
 
+  const leng = services?.data.length ?? ''
 
   return (
     <div className='max-w-7xl mx-auto px-4 py-4'>
       <div className='flxe flex-col space-y-4'>
         <div className='flex items-center justify-between space-y-2'>
-          <p className='text-xl md:text-2xl whitespace-nowrap font-semibold'>My Services (20)</p>
+          <p className='text-xl md:text-2xl whitespace-nowrap font-semibold'>My Services ({leng})</p>
           <div className="flex items-center gap-4">
             {/* <Button size={'sm'}>
               <Plus />

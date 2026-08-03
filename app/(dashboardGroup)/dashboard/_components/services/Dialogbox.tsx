@@ -61,7 +61,6 @@ export function DialogService({ mode, service, categories }: Props) {
     } else {
       toast.error(state.message || 'upload failed')
     }
-
     setHasSubmitted(false)
   }, [hasSubmitted, state])
 

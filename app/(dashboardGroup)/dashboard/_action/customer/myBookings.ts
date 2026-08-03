@@ -22,7 +22,7 @@ export const getMyBookings = async (searchParams: Record<string, string | string
 
   const res = await fetch(`${process.env.BACKEND_API_URL}/api/bookings?${params.toString()}`, {
     headers: {
-      Cookie: `accessToken= ${accessToken}`
+      Cookie: `accessToken=${accessToken}`
     },
     cache: "force-cache",
     next: {
