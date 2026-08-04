@@ -19,6 +19,13 @@ export type LoginState = {
 }
 
 
+export interface AuthResponse<T> {
+  success: boolean
+  statusCode?: number
+  message?: string
+  data?: T | null
+}
+
 export interface Service {
   id: string
   cover: string
@@ -55,43 +62,26 @@ export interface Technician {
 }
 
 
-export type TUser = {
-  success: boolean
-  message: string
-  data: {
-    id: string
-    firstName: string
-    lastName: string
-    email: string
-    phone: string
-    profileImage?: string
-    address?: string
-    city?: string
-    role: ROLE
-    activeStatus: string
-    status: UserStatus
-    createdAt?: string
-    updatedAt?: string
-    technicianProfile?: {
-      id: string
-      userId: string
-      bio?: string
-      skills: string[]
-      experience: number
-      hourlyRate: number
-      completedJobs: number
-      availability: string[]
-      createdAt: string
-      updatedAt: string
-    }
-  }
+export interface IUser {
+  id: string
+  role: ROLE
+  fullName: string
+  email: string
+  phone: string
+  profileImage?: string
+  address?: string
+  city?: string
+  status: UserStatus
+  profileId: string
+  bio?: string
+  skills: string[]
+  experience: number
+  hourlyRate: number
+  completedJobs: number
+  availability: string[]
+  createdAt: string
+  updatedAt: string
 }
-
-
-export interface NavbarProps {
-  user: TUser
-}
-
 
 
 export type Meta = {
@@ -149,13 +139,15 @@ export interface Booking {
 export interface Categories {
   id: string
   name: string
+  description: string
+  status: 'ACTIVE' | "IN_ACTIVE"
 }
 
 
 
 export interface IServiceCreate {
   categoryId: string
-  // cover: string,
+  cover: string,
   title: string
   description: string
   price: number
@@ -219,4 +211,102 @@ export interface IncomingBook {
   serviceName: string
   scheduledDate: string
   totalAmount: string
+}
+
+
+
+
+export interface IBookingService {
+  title: string
+  description: string
+  duration: string
+  location: string[]
+}
+
+
+export interface IBooking {
+  id: string
+  scheduledDate: string
+  address: string
+  note?: string
+  totalAmount: string
+  status: BookingStatus
+  cancelReason?: string
+  acceptedAt?: string
+  canceledAt?: string
+  service: IBookingService
+}
+
+
+
+
+export interface ITechnicianService {
+  id: string;
+  technicianProfileId: string;
+  categoryId: string;
+  cover: string;
+  title: string;
+  description: string;
+  price: string;
+  type: string;
+  duration: string;
+  location: string[];
+  availableAt: string[];
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ITechnicianProfile {
+  bio: string;
+  availability: string[];
+  experience: number;
+  hourlyRate: string;
+  skills: string[];
+  services: ITechnicianService[];
+}
+
+export interface ITechnicianReview {
+  id: string
+  rating: number
+  comment: string
+}
+
+export interface ITechnician {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  profileImage: string;
+  address: string;
+  city: string;
+  role: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  technicianProfile: ITechnicianProfile;
+  reviews: ITechnicianReview[];
+}
+
+export interface ITechnicianResponse {
+  success: boolean;
+  statusCode: number;
+  message: string;
+  data: ITechnician;
+}
+
+
+
+export interface IPaymentHistory {
+  bookingId: string;
+  customerName: string;
+  technicianName: string;
+  serviceTitle: string;
+  serviceType: string;
+  amount: number;
+  status: PaymentStatus;
+  transactionId: string;
+  paymentIntentId: string;
+  paidAt: string;
 }

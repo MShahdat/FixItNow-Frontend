@@ -5,8 +5,12 @@ import React, { ReactNode, use } from 'react';
 const LayoutPage = async ({
   children,
 }: { children: ReactNode }) => {
+
+
   const user = await getMe()
   console.log('user', use)
+
+
   return (
     <div>
       <Navbar user={user} />

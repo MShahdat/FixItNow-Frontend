@@ -36,10 +36,10 @@ export function DashboardSidebar({ user }: any) {
 
   let navItems: any = {}
 
-  if (user?.data.role === 'CUSTOMER') {
+  if (user?.data?.role === 'CUSTOMER') {
     navItems = sidebarManuItems.CUSTOMER
   }
-  else if (user?.data.role === 'TECHNICIAN') {
+  else if (user?.data?.role === 'TECHNICIAN') {
     navItems = sidebarManuItems.TECHNICIAN
   } else {
     navItems = sidebarManuItems.ADMIN

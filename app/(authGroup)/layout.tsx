@@ -5,7 +5,11 @@ import React, { ReactNode } from 'react';
 const AuthGroupLayout = async ({
   children
 }: { children: ReactNode }) => {
+
+
   const user = await getMe()
+
+
   return (
     <div>
       <Navbar user={user} />

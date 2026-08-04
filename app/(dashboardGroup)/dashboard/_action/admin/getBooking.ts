@@ -2,7 +2,7 @@ import { cookies } from "next/headers"
 
 
 
-export const getCategories = async (searchParams: Record<string, string | string[] | undefined>) => {
+export const getBooking = async (searchParams: Record<string, string | string[] | undefined>) => {
 
   const cookieStore = await cookies()
   const accessToken = cookieStore.get('accessToken')?.value
@@ -26,14 +26,14 @@ export const getCategories = async (searchParams: Record<string, string | string
 
 
 
-  const res = await fetch(`${process.env.BACKEND_API_URL}/api/categories?${params.toString()}`, {
+  const res = await fetch(`${process.env.BACKEND_API_URL}/api/admin/bookings?${params.toString()}`, {
     headers: {
       Cookie: `accessToken=${accessToken}`
     },
     cache: "force-cache",
     next: {
       revalidate: 60 * 60 * 12,
-      tags: ['all-categories']
+      tags: ['all-bookings']
     }
   })
 

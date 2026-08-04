@@ -35,7 +35,7 @@ import {
 // import { logout } from "@/service/logout"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
-import { NavbarProps } from "@/lib/interface"
+import { AuthResponse, IUser } from "@/lib/interface"
 import { fullName } from "@/services/fullName"
 import { logout } from "@/app/(authGroup)/_action/logoutAction"
 import { Theme } from "./Theme"
@@ -48,22 +48,27 @@ const navLinks = [
   { label: "Contact", href: "/contact", icon: Contact },
 ] as const
 
+
+
+interface NavbarProps {
+  user?: AuthResponse<IUser> | null
+}
+
 export function Navbar({ user }: NavbarProps) {
   const role = user?.data?.role
   const name = fullName(user)
   const router = useRouter()
 
-  // Moved inside the component — no more shared module-level mutable state
   let userMenuItems: { label: string; href: string; icon: typeof User }[] = []
 
-  if (user.success) {
+  if (user?.success) {
     const roleHref: Record<string, string> = {
       ADMIN: "/dashboard/admin",
       TECHNICIAN: "/dashboard/technician",
       CUSTOMER: "/dashboard/customer",
     }
 
-    const dashboardHref = roleHref[role] ?? "/"
+    const dashboardHref = role ? roleHref[role] ?? "/" : "/"
 
     userMenuItems = [
       { label: "Profile", href: `${dashboardHref}/profile`, icon: User },
@@ -84,7 +89,7 @@ export function Navbar({ user }: NavbarProps) {
   }
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-40 w-full border-b border-border bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4">
         <div>
           {/* Logo */}
@@ -145,7 +150,7 @@ export function Navbar({ user }: NavbarProps) {
             <Theme />
             <Bell />
           </div>
-          {user.success ? (
+          {user?.success ? (
             <div className="flex items-center gap-2">
               {/* User dropdown */}
               <DropdownMenu>
@@ -185,7 +190,7 @@ export function Navbar({ user }: NavbarProps) {
                         <DropdownMenuItem
                           key={item.href}
                           asChild
-                          className="text-neutral-900 focus:bg-neutral-300 focus:text-neutral-900 [&_svg]:!text-neutral-900 [&_svg_*]:!text-neutral-900"
+                          className="text-neutral-900 focus:bg-neutral-300 focus:text-neutral-900 [&_svg]:text-neutral-900! [&_svg_*]:text-neutral-900!"
                         >
                           <Link href={item.href}>
                             <Icon />
@@ -200,7 +205,7 @@ export function Navbar({ user }: NavbarProps) {
                     onClick={() => {
                       handleLogout('logout')
                     }}
-                    className="!text-red-600 focus:bg-red-50 focus:!text-red-600 [&_svg]:!text-red-600 [&_svg_*]:!text-red-600"
+                    className="text-red-600! focus:bg-red-50 focus:text-red-600! [&_svg]:text-red-600! [&_svg_*]:text-red-600!"
                   >
                     <LogOut />
                     Sign out

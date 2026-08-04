@@ -1,24 +1,27 @@
-import { getSingleTechnician } from "../../_action/getSingleTechnician";
+// app/technicians/[id]/page.tsx
 
+import { TechnicianProfile } from "@/app/(publicGroup)/_components/TechnicianProfile";
+import { getSingleTechnician } from "../../_action/getSingleTechnician";
 
 const TechnicianByIdPage = async ({
   params,
-}: { params: Promise<{ id: string }> }) => {
-
-  const id = await (await (params)).id
-  const technician = await getSingleTechnician(id as string)
-  // console.log('technician ', technician)
+}: {
+  params: Promise<{ id: string }>;
+}) => {
+  const { id } = await params;
+  const technician = await getSingleTechnician(id);
 
   if (!technician.success || !technician.data) {
     return (
-      <p className="py-12 text-center text-red-700">No technician found</p>
-    )
+      <div className="flex min-h-[60vh] items-center justify-center">
+        <p className="text-muted-foreground">No technician found.</p>
+      </div>
+    );
   }
 
   return (
-    <div>
-      <p> technician id: {technician.data.id}</p>
-      email: {technician.data.email}
+    <div className="mx-auto max-w-6xl px-4 py-8">
+      <TechnicianProfile technician={technician?.data} />
     </div>
   );
 };

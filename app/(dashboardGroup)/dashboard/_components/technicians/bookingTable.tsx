@@ -16,7 +16,7 @@ interface BookingTableProps {
   bookings: BookingTech[]
 }
 
-function getStatusVariant(status: string) {
+export function getStatusVariant(status: string) {
   switch (status) {
     case "ACCEPTED":
       return "accepted"
@@ -30,6 +30,10 @@ function getStatusVariant(status: string) {
       return "completed"
     case "IN_PROGRESS":
       return "inProgress"
+    case "ACTIVE":
+      return "default"
+    case "IN_ACTIVE":
+      return "declined"
     default:
       return "secondary"
   }

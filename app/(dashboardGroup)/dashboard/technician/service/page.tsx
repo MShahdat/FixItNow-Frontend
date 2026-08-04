@@ -15,9 +15,12 @@ import { getServices } from '@/app/(publicGroup)/(serviceTechnicianGroup)/_actio
 import { getMyServices } from '../../_action/getMyservices';
 
 
-const ServicePage = async () => {
+const ServicePage = async ({
+  searchParams,
+}: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) => {
 
-  const categories = await getCategories()
+  const search = await searchParams
+  const categories = await getCategories(search)
   const services = await getMyServices()
 
   const leng = services?.data.length ?? ''
