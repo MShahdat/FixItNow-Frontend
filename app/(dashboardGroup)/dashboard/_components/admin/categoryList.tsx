@@ -11,8 +11,8 @@ import {
 } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
 import { Categories, Meta } from "@/lib/interface"
-import { getStatusVariant } from "../technicians/bookingTable"
 import { CategoryForm } from "./categoryForm"
+import { getStatusVariant } from "@/util/badgeStyle"
 
 function formatStatus(status: string) {
   return status.charAt(0) + status.slice(1).toLowerCase()

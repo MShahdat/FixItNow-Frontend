@@ -9,12 +9,11 @@ import { Paginations } from '@/components/shared/Pagination';
 type Props = {
   searchParams: {
     [key: string]: string | string[] | undefined;
-  },
-  meta: Meta
+  }
 };
 
 
-const ServiceList = async ({ searchParams, meta }: Props) => {
+const ServiceList = async ({ searchParams }: Props) => {
 
   const services = await getServices(searchParams)
 
@@ -33,7 +32,7 @@ const ServiceList = async ({ searchParams, meta }: Props) => {
           ))
         }
       </div>
-      <Paginations meta={meta} />
+      <Paginations meta={services.meta} />
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import { AuthResponse, IUser } from "@/lib/interface";
 
-export const fullName = (user: AuthResponse<IUser> | null | undefined) => {
+export const fullName = (user: any) => {
   const firstName = user?.data?.firstName ?? ""
   const lastName = user?.data?.lastName ?? ""
 

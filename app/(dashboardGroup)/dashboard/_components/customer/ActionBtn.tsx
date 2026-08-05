@@ -5,11 +5,11 @@ import { CancelDialog } from "./Cancel"
 import { ViewPaymentStatus } from "./ViewPaymentStatus"
 import { ReviewForm } from "./ReviewForm"
 import { ViewReview } from "./ViewReview"
-import { Booking } from "./MyBookingCard"
 import { Button } from "@/components/ui/button"
 import { payment } from "../../_action/customer/payment"
 import { toast } from "sonner"
 import { redirect } from "next/navigation"
+import { Booking } from "@/lib/interface"
 
 
 export function ActionButton({ booking }: { booking: Booking }) {

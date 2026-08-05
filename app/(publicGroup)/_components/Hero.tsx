@@ -27,11 +27,11 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="bg-neutral-950 text-white">
+    <section className="bg-[#F5F2EC] text-black">
       <div className="mx-auto max-w-5xl px-4 py-20 flex flex-col items-center text-center">
         <Badge
           variant="outline"
-          className="mb-5 border-neutral-700 text-neutral-300 gap-1.5 px-3 py-1"
+          className="mb-5 border-neutral-700 text-neutral-600 gap-1.5 px-3 py-1"
         >
           <ShieldCheck className="h-3.5 w-3.5" />
           Verified professionals only
@@ -47,17 +47,17 @@ const HeroSection = () => {
 
         <div className="mt-8 flex w-full max-w-xl items-center gap-2">
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-500" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4" />
             <Input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="What service do you need?"
-              className="h-10 md:h-12 pl-9 bg-neutral-900 border-neutral-800 text-white placeholder:text-neutral-500 focus-visible:ring-neutral-600"
+              className="h-10 md:h-11 pl-9 bg-neutral-900 border-neutral-800 text-white placeholder:text-neutral-500 focus-visible:ring-neutral-600"
             />
           </div>
           <Button
             onClick={handleSearch}
-            className="h-10 md:h-12 px-6 bg-white text-black hover:bg-neutral-200"
+            className="h-10 md:h-11 px-6 bg-white text-black hover:bg-neutral-200"
           >
             Search
           </Button>

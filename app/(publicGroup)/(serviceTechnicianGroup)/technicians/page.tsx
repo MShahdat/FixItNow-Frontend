@@ -14,19 +14,21 @@ const TechnicianPage = async ({
   const technicians = await getTechnicians(search)
 
   return (
-    <div className='max-w-7xl mx-auto px-2 py-4'>
-      <div className='flxe flex-col space-y-6'>
-        <div className='flex flex-col sm:flex-row justify-between space-y-2'>
-          <p className='text-xl md:text-2xl whitespace-nowrap font-semibold'>All Technicians ({technicians?.meta?.total})</p>
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2">
-              <p className="whitespace-nowrap">Per Page: </p>
-              <CardShow />
+    <div className='bg-[#F5F2EC]'>
+      <div className='max-w-7xl mx-auto px-4 xl:px-8 py-8'>
+        <div className='flxe flex-col space-y-6'>
+          <div className='flex flex-col sm:flex-row justify-between space-y-2'>
+            <p className='text-xl md:text-2xl whitespace-nowrap font-semibold'>All Technicians ({technicians?.meta?.total})</p>
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2">
+                <p className="whitespace-nowrap">Per Page: </p>
+                <CardShow />
+              </div>
+              <SearchBar />
             </div>
-            <SearchBar />
           </div>
+          <TechnicianList searchParams={search} meta={technicians.meta} />
         </div>
-        <TechnicianList searchParams={search} meta={technicians.meta} />
       </div>
     </div>
   );

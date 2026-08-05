@@ -10,38 +10,14 @@ import {
 import { Badge } from "@/components/ui/badge"
 import { BookingTech } from "@/lib/interface"
 import { StatusUpdateForm } from "./statusUpdateForm"
+import { formatStatus, getStatusVariant } from "@/util/badgeStyle"
 
 
 interface BookingTableProps {
   bookings: BookingTech[]
 }
 
-export function getStatusVariant(status: string) {
-  switch (status) {
-    case "ACCEPTED":
-      return "accepted"
-    case "REQUESTED":
-      return "requested"
-    case 'DECLINED':
-      return "declined"
-    case "CANCELLED":
-      return "cancelled"
-    case "COMPLETED":
-      return "completed"
-    case "IN_PROGRESS":
-      return "inProgress"
-    case "ACTIVE":
-      return "default"
-    case "IN_ACTIVE":
-      return "declined"
-    default:
-      return "secondary"
-  }
-}
 
-function formatStatus(status: string) {
-  return status.charAt(0) + status.slice(1).toLowerCase()
-}
 
 export function BookingTable({ bookings }: BookingTableProps) {
   return (

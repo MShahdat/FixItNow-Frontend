@@ -42,10 +42,11 @@ export function ReviewForm({ booking, mode }: Props) {
   useEffect(() => {
     if (!hasSubmitted || !state) return
     if (state.success) {
+      console.log('review removed............')
       toast.success(state.message)
       setOpen(false)
     } else {
-      toast.error(state.message || 'Action failed')
+      toast.error(state.message || 'Reviw failed')
     }
     setHasSubmitted(false)
   }, [state, hasSubmitted])
@@ -90,6 +91,7 @@ export function ReviewForm({ booking, mode }: Props) {
                 name="rating"
                 max={5}
                 min={1}
+                step={'0.1'}
                 defaultValue={booking.review?.rating ?? ''}
                 required
               />

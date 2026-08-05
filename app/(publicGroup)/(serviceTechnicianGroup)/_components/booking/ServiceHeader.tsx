@@ -5,9 +5,15 @@ import { BadgeCent, Clock, Star } from 'lucide-react';
 
 
 
+
 const ServiceHeader = ({ service }: { service: any }) => {
 
   console.log('service part', service)
+
+  const reviewList = Array.isArray(service.review) ? service.review : [];
+  const averageRating = reviewList.length
+    ? (reviewList.reduce((sum: number, review: { rating?: number }) => sum + (Number(review?.rating) || 0), 0) / reviewList.length).toFixed(1)
+    : "0.0";
 
   return (
     <div className="mt-3 space-y-3">
@@ -22,9 +28,9 @@ const ServiceHeader = ({ service }: { service: any }) => {
       <div className="flex items-center gap-2 sm:gap-3 flex-wrap text-sm text-muted-foreground">
         <div className="flex items-center gap-1 text-foreground font-medium">
           <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-          <span>4.5</span>
+          <span>{averageRating}</span>
         </div>
-        <span>(39 reviews)</span>
+        <span>({reviewList} reviews)</span>
         <Separator orientation="vertical" className="h-4 hidden sm:block" />
         <span>
           Provided by <span className="text-foreground font-semibold">

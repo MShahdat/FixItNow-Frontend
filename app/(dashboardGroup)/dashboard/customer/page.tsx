@@ -12,6 +12,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { getMe } from "@/services/getMe";
 import { fullName } from "@/services/fullName";
+import { toast } from "sonner";
 
 
 const PAID_STATUS = "PAID";
@@ -26,6 +27,15 @@ const DashboardPage = async ({
   const payments = await getMyPayment();
   const bookings = await getMyBookings(search)
 
+  if (!payments.success || bookings.success) {
+    return (
+      console.log('no payment or booking found')
+    )
+  }
+
+
+
+
   // console.log('my bookings ', bookings)
 
   const allBooking = bookings?.data ?? []
@@ -33,7 +43,7 @@ const DashboardPage = async ({
   const me = await getMe()
   const name = fullName(me)
 
-  const succeeded = payments?.data.filter(
+  const succeeded = payments?.data?.filter(
     (p: any) => p.status === PAID_STATUS && p.paidAt
   );
 

@@ -4,57 +4,14 @@ import { ActionButton } from "./ActionBtn"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { Booking } from "@/lib/interface"
+import { formatStatus, getStatusVariant } from "@/util/badgeStyle"
+import { Star } from "lucide-react"
 
-
-
-function getStatusVariant(status: string) {
-  switch (status) {
-    case "ACCEPTED":
-      return "accepted"
-    case "REQUESTED":
-      return "requested"
-    case "DECLINED":
-      return "declined"
-    case "CANCELLED":
-      return "cancelled"
-    case "COMPLETED":
-      return "completed"
-    case "IN_PROGRESS":
-      return "inProgress"
-    default:
-      return "secondary"
-  }
-}
-
-function formatStatus(status: string) {
-  return status.charAt(0) + status.slice(1).toLowerCase()
-}
-
-function StatItem({
-  icon,
-  label,
-  value,
-  valueClassName = "text-neutral-900",
-}: {
-  icon: React.ReactNode
-  label: string
-  value: string
-  valueClassName?: string
-}) {
-  return (
-    <div className="flex flex-col items-center gap-2 px-2 text-center">
-      {icon}
-      <span className="text-sm text-neutral-500">{label}</span>
-      <span className={`text-sm font-bold ${valueClassName}`}>{value}</span>
-    </div>
-  )
-}
 
 
 export function MyBookingCard({ booking }: { booking: Booking }) {
   return (
     <Card
-      key={booking.id}
       className="flex flex-col justify-between overflow-hidden rounded-2xl border-border/60 py-0 shadow-sm transition-shadow hover:shadow-md"
     >
       <CardHeader className="flex flex-row items-start justify-between gap-2 space-y-0 pt-5">
@@ -66,9 +23,15 @@ export function MyBookingCard({ booking }: { booking: Booking }) {
             with {booking.technicianName}
           </p>
         </div>
-        <Badge variant={getStatusVariant(booking.status)}>
-          {formatStatus(booking.status)}
-        </Badge>
+        <div className="flex flex-col items-center gap-1">
+          <Badge variant={getStatusVariant(booking.status)}>
+            {formatStatus(booking.status)}
+          </Badge>
+          <div className="flex items-center gap-1">
+            <Star className="size-4 fill-amber-400 text-amber-400" />
+            4.5
+          </div>
+        </div>
       </CardHeader>
 
       <CardContent className="space-y-2 text-sm">

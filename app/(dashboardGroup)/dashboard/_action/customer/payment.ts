@@ -25,7 +25,7 @@ export const payment = async (bookingId: any) => {
   })
 
   const result = await res.json()
-  // console.log('payment create respose', result)
+  console.log('payment create respose', result)
 
   if (result.success) {
     revalidateTag('customer-bookings', { expire: 0 })

@@ -147,7 +147,7 @@ export interface Categories {
 
 export interface IServiceCreate {
   categoryId: string
-  cover: string,
+  cover?: string
   title: string
   description: string
   price: number
@@ -297,8 +297,48 @@ export interface ITechnicianResponse {
 }
 
 
+export interface IReviews {
+  id: string;
+  rating: string;
+  comment: string;
+  createdAt: string;
+  updatedAt: string;
+  technicianId: string;
+  serviceId: string;
+  bookingId: string;
+  service: {
+    cover: string;
+    title: string;
+    price: string;
+    type: string;
+    duration: string;
+  };
+  technician: {
+    user: {
+      firstName: string;
+      lastName: string;
+    };
+  };
+}
+
+
+
+type Pay = {
+  id: string
+  bookingId: string
+  technicianName: string
+  serviceTitle: string
+  serviceType: string
+  amount: number
+  status: string
+  transactionId: string
+  paymentIntentId: string
+  paidAt: string
+}
+
 
 export interface IPaymentHistory {
+  id: string
   bookingId: string;
   customerName: string;
   technicianName: string;
@@ -310,3 +350,4 @@ export interface IPaymentHistory {
   paymentIntentId: string;
   paidAt: string;
 }
+

@@ -1,21 +1,32 @@
 'use server'
 
-
 import { cookies } from "next/headers";
-
+import { uploadImage } from "@/lib/cloudinary";
+import { revalidateTag } from "next/cache";
 
 export const updateProfile = async (previousState: any, formData: FormData) => {
-
-  console.log('from data profile', formData)
-
   const cookieStore = await cookies()
   const accessToken = cookieStore.get('accessToken')?.value
-
+  const MAX_IMAGE_SIZE = 5 * 1024 * 1024 // 5MB
 
   const role = formData.get('role') as 'CUSTOMER' | 'TECHNICIAN' | 'ADMIN'
 
+  const profileImageFile = formData.get('profileImage') as File | null
+  let profileImageUrl: string | undefined = undefined
+
+  if (profileImageFile instanceof File && profileImageFile.size > 0) {
+    if (profileImageFile.size > MAX_IMAGE_SIZE) {
+      return {
+        success: false,
+        message: 'Profile image must be 5MB or smaller',
+      }
+    }
+
+    profileImageUrl = await uploadImage(profileImageFile, 'profile-images')
+  }
+
   const base = {
-    // profileImage: formData.get('profileImage') ?? null,
+    ...(profileImageUrl ? { profileImage: profileImageUrl } : {}),
     phone: formData.get('phone') ?? null,
     address: formData.get('address') ?? null,
     city: formData.get('city') ?? null,
@@ -68,6 +79,10 @@ export const updateProfile = async (previousState: any, formData: FormData) => {
   }
 
   const result = await (res as Response).json()
+
+  if (result.success) {
+    revalidateTag('technicians', { expire: 0 })
+  }
 
   return result
 

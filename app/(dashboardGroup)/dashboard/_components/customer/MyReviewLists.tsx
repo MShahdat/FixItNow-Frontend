@@ -1,7 +1,8 @@
 import React from 'react';
 import { getReviews } from '../../_action/customer/getReview';
-import MyReviewCard, { Review } from './MyReviewCard';
+import MyReviewCard from './MyReviewCard';
 import { getMyBookings } from '../../_action/customer/myBookings';
+import { IReviews, Review } from '@/lib/interface';
 
 
 
@@ -18,19 +19,16 @@ const MyReviewLists = async ({ searchParams }: Props) => {
   const bookings = await getMyBookings(searchParams)
 
 
-  if (!reviews.success || !reviews.data?.length) {
-    return (
-      <p className="py-12 text-center text-red-700">No reviews found</p>
-    )
+  if (!reviews.success || !bookings.data?.length) {
+    return
   }
-
 
 
   return (
     <div className='max-w-7xl mx-auto px-2 pb-20'>
       <div className='grid grid-cols-1 lg:grid-cols-2 space-y-1 gap-4'>
         {
-          reviews.data.map((item: Review) => (
+          reviews.data.map((item: IReviews) => (
             <MyReviewCard key={item.id} review={item} bookings={bookings.data} />
           ))
         }

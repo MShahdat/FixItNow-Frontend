@@ -1,13 +1,8 @@
 import SearchBar from "@/components/shared/SearchBar";
-import { CardShow } from "@/components/shared/CardShow";
-import { getUsers } from "../../_action/admin/getUsers";
-import { UsersList } from "../../_components/admin/usersList";
 import { Paginations } from "@/components/shared/Pagination";
-import { getCategories } from "../../_action/getCategories";
 import { AllCategoryList } from "../../_components/admin/categoryList";
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
 import { CategoryForm } from "../../_components/admin/categoryForm";
+import { getAllCategories } from "../../_action/admin/getAllCategories";
 
 
 const CategoryPage = async ({
@@ -15,7 +10,7 @@ const CategoryPage = async ({
 }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) => {
 
   const search = await searchParams
-  const categories = await getCategories(search)
+  const categories = await getAllCategories(search)
 
 
   return (

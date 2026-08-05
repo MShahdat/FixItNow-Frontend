@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/sidebar"
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { customerItems } from "../_config/customerItems";
 import { technicianItems } from "../_config/technicianItems";
 import { adminItems } from "../_config/adminItems";

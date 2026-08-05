@@ -19,7 +19,7 @@ export const getTechnicians = async (searchParams: Record<string, string | strin
     cache: "force-cache",
     next: {
       revalidate: 60 * 60 * 12,
-      tags: ["services"]
+      tags: ["technicians"]
     }
   })
 

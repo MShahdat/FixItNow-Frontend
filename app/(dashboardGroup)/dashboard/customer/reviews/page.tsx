@@ -1,4 +1,5 @@
 
+import { getReviews } from "../../_action/customer/getReview";
 import { getMyBookings } from "../../_action/customer/myBookings";
 import MyReviewLists from "../../_components/customer/MyReviewLists";
 
@@ -10,12 +11,11 @@ const ReviewPage = async ({
 
   const search = await searchParams
 
-  const bookings = await getMyBookings(search)
-  // console.log('...............', bookings)
+  const reviews = await getReviews()
 
-  if (!bookings.success || !bookings.data?.length) {
+  if (!reviews.success) {
     return (
-      <p className="py-12 text-center text-red-700">You did not yet booking service</p>
+      <p className="py-12 text-center text-red-700">Reviews not found</p>
     )
   }
 

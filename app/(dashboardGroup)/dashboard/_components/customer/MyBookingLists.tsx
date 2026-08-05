@@ -2,6 +2,7 @@
 import { Booking } from "@/lib/interface";
 import { getMyBookings } from "../../_action/customer/myBookings";
 import { MyBookingCard } from "./MyBookingCard";
+import { Paginations } from "@/components/shared/Pagination";
 
 type Props = {
   searchParams: {
@@ -18,9 +19,7 @@ const MyBookingLists = async ({ searchParams, limit }: Props) => {
 
 
   if (!Bookings.success || !Bookings.data?.length) {
-    return (
-      <p className="py-12 text-center text-red-700">No booking found</p>
-    )
+    return
   }
 
   const allBookings = Bookings.data
@@ -32,7 +31,7 @@ const MyBookingLists = async ({ searchParams, limit }: Props) => {
 
 
   return (
-    <div className="">
+    <div className="space-y-4">
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {
           bookings.map((booking: Booking) => (
@@ -40,6 +39,7 @@ const MyBookingLists = async ({ searchParams, limit }: Props) => {
           ))
         }
       </div>
+      <Paginations meta={bookings.meta} />
     </div>
   );
 };

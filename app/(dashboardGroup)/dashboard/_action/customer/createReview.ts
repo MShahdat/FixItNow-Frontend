@@ -4,6 +4,7 @@ import { revalidateTag } from "next/cache"
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 
+
 export const createReview = async (bookingId: string, previousSatae: any, formData: FormData) => {
 
   console.log('form data ', formData)
@@ -30,11 +31,12 @@ export const createReview = async (bookingId: string, previousSatae: any, formDa
 
   if (result.success) {
     revalidateTag('customer-bookings', { expire: 0 })
+    revalidateTag('customer-reviews', { expire: 0 })
   }
 
-  // if (result.success) {
-  //   redirect('dashboard/customer/reviews')
-  // }
+  if (result.success) {
+    redirect('/dashboard/customer/reviews')
+  }
 
   return result
 }

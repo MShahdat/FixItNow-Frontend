@@ -55,7 +55,9 @@ interface NavbarProps {
 }
 
 export function Navbar({ user }: NavbarProps) {
+
   const role = user?.data?.role
+  // if
   const name = fullName(user)
   const router = useRouter()
 
@@ -89,7 +91,7 @@ export function Navbar({ user }: NavbarProps) {
   }
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-border bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
+    <header className="sticky top-0 z-40 w-full border-b border-border bg-green-950 text-white">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4">
         <div>
           {/* Logo */}

@@ -13,6 +13,7 @@ import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge';
 import { updateProfile } from '@/services/updateMe';
 import { toast } from 'sonner';
+import { formatStatus, getStatusVariant } from '@/util/badgeStyle';
 
 const image = 'https://img.magnific.com/free-photo/portrait-white-man-isolated_53876-40306.jpg?semt=ais_hybrid&w=740&q=80'
 
@@ -45,10 +46,11 @@ interface User {
 
 const STATUS_STYLES: Record<string, string> = {
   ACTIVE: "bg-emerald-50 text-emerald-700 ring-emerald-600/20",
-  APPROVED: "bg-emerald-50 text-emerald-700 ring-emerald-600/20",
-  PENDING: "bg-amber-50 text-amber-700 ring-amber-600/20",
-  INACTIVE: "bg-zinc-100 text-zinc-600 ring-zinc-500/20",
-  REJECTED: "bg-red-50 text-red-700 ring-red-600/20",
+
+  // APPROVED: "bg-emerald-50 text-emerald-700 ring-emerald-600/20",
+  // PENDING: "bg-amber-50 text-amber-700 ring-amber-600/20",
+  // INACTIVE: "bg-zinc-100 text-zinc-600 ring-zinc-500/20",
+  // REJECTED: "bg-red-50 text-red-700 ring-red-600/20",
 };
 
 const SectionLabel = ({ children }: { children: React.ReactNode }) => (
@@ -192,11 +194,8 @@ const Profile = ({ profile }: { profile: User }) => {
                 <h1 className="text-xl sm:text-2xl font-semibold text-zinc-900 truncate">
                   {fullName}
                 </h1>
-                <Badge className={cn(
-                  "text-[11px] font-medium px-2 py-0.5 rounded-full ring-1 ring-inset capitalize",
-                  statusStyle
-                )}>
-                  {profile.status?.toLowerCase()}
+                <Badge variant={getStatusVariant(profile.status)}>
+                  {formatStatus(profile.status)}
                 </Badge>
               </div>
               <p className="text-sm text-zinc-500 mt-1">{profile.role}</p>

@@ -8,57 +8,25 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-
-
-type Pay = {
-  id: string
-  bookingId: string
-  technicianName: string
-  serviceTitle: string
-  serviceType: string
-  amount: number
-  status: string
-  transactionId: string
-  paymentIntentId: string
-  paidAt: string
-}
+import { IPaymentHistory } from "@/lib/interface"
+import { formatStatus, getStatusVariant } from "@/util/badgeStyle"
 
 
 type Props = {
   success: boolean,
   statusCode: number
   message: string
-  data: Pay[]
+  data: IPaymentHistory[]
 }
 
-
-function getStatusVariant(status: string) {
-  switch (status) {
-    case "PENDING":
-      return "inProgress"
-    case "PAID":
-      return "accepted"
-    case 'FAILED':
-      return "cancelled"
-    case "REFUNDED":
-      return "requested"
-    default:
-      return "secondary"
-  }
-}
 
 
 export function MyPaymentTable({ payments }: { payments: Props }) {
 
-  if (!payments.success || !payments.data?.length) {
-    return (
-      <p className="py-12 text-center text-red-700">You did not payment yet</p>
-    )
+  if (!payments.success) {
+    return
   }
 
-  function formatStatus(status: string) {
-    return status.charAt(0) + status.slice(1).toLowerCase()
-  }
   return (
     <div>
       <p className="text-xl md:text-2xl font-semibold">Information</p>

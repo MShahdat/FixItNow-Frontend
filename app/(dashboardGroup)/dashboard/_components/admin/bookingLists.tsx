@@ -10,12 +10,8 @@ import {
 } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
 import { IBooking, Meta } from "@/lib/interface"
-import { getStatusVariant } from "../technicians/bookingTable"
+import { formatStatus, getStatusVariant } from "@/util/badgeStyle"
 
-
-function formatStatus(status: string) {
-  return status.charAt(0) + status.slice(1).toLowerCase()
-}
 
 function formatDate(dateStr: string) {
   return new Date(dateStr).toLocaleDateString("en-US", {

@@ -6,34 +6,11 @@ import { Card, CardHeader } from '@/components/ui/card';
 import { Star, Clock, DollarSign, Calendar, Pencil, Trash2, Edit2, Edit } from 'lucide-react';
 import { ReviewForm } from './ReviewForm';
 import { DeleteDialog } from './Delete';
-import { Booking } from '@/lib/interface';
+import { Booking, IReviews } from '@/lib/interface';
 
-export interface Review {
-  id: string;
-  rating: string;
-  comment: string;
-  createdAt: string;
-  updatedAt: string;
-  technicianId: string;
-  serviceId: string;
-  bookingId: string;
-  service: {
-    cover: string;
-    title: string;
-    price: string;
-    type: string;
-    duration: string;
-  };
-  technician: {
-    user: {
-      firstName: string;
-      lastName: string;
-    };
-  };
-}
 
 interface MyReviewCardProps {
-  review: Review;
+  review: IReviews;
   bookings: Booking[],
 }
 
@@ -49,6 +26,7 @@ const image =
   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkuKgfrrptyY5G4fIL2_CUi5yZ_cAcOJMU5tvyrGAxPGshzQAbxzK4bRzh&s=10';
 
 const MyReviewCard = ({ review, bookings }: MyReviewCardProps) => {
+
   const rating = Math.round(Number(review.rating));
   const technicianName = `${review.technician.user.firstName} ${review.technician.user.lastName}`;
 

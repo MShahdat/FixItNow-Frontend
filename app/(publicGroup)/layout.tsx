@@ -6,7 +6,6 @@ const LayoutPage = async ({
   children,
 }: { children: ReactNode }) => {
 
-
   const user = await getMe()
   console.log('user', use)
 
